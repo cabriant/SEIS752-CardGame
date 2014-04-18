@@ -1,0 +1,67 @@
+﻿<!DOCTYPE HTML>
+<html lang="en" data-ng-app="cardGameApp">
+    <head>
+        <title>Card Game</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/Content/bootstrap.css" rel="stylesheet" />
+        <link href="/Content/animations.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" type="text/css" href="/Content/css/Site.css" />
+        
+        <base href="/" />
+    </head>
+    <body data-ng-cloak="">
+        <header class="navbar navbar-default navbar-fixed-top bottom-box-shadow" data-ng-controller="NavigationController">
+            <nav class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">
+                        <span class="appTitle">{{ appTitle }}</span>
+                    </a>
+                </div>
+                <a href="javascript:void(0);" id="nav-login" data-ng-click="loginOrOut()" class="pull-right">{{ loginLogoutText }}</a>
+            </nav>
+        </header>
+
+        <div class="slide-animation-container main-content">
+            <div data-ng-view="" id="ng-view" class="slide-animation"></div>
+        </div>
+
+        <div id="footer">
+            <div class="navbar navbar-fixed-bottom">
+                <div class="navbar-inner footer">
+                    <div class="container">
+                        <footer>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Copyright &copy; Element Zero Solutions, LLC
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3rd party libraries -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-animate.min.js"></script>
+        <script src="/Scripts/angular-ui-bootstrap.js"></script>
+        <script src="/Scripts/tweenMax.min.js"></script>
+
+        <script src="/Scripts/jquery-2.1.0.min.js"></script>
+
+        <!-- Main App -->
+        <script src="/app/app.js"></script>
+    
+        <!-- Services -->
+        <script src="/app/services/userService.js"></script>
+        <script src="/app/services/httpInterceptors.js"></script>
+    
+        <!-- Controllers -->
+        <script src="/app/controllers/loginController.js"></script>
+        <script src="/app/controllers/navigationController.js"></script>
+        <script src="/app/controllers/home/homeController.js"></script>
+    </body>
+</html>
