@@ -31,9 +31,12 @@
 
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 if (next && next.$$route && next.$$route.reqSession) {
-                    if (!userService.checkAuth()) {
-                        userService.redirectToLogin();
-                    }
+                    var userPromise = userService.getUser();
+                    userPromise.then(function(success) {
+                        if (success == null || !success.isAuthenticated) {
+                            userService.redirectToLogin();
+                        }
+                    });
                 }
             });
 

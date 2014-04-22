@@ -109,7 +109,7 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\controllers\home\homeController.js" />
-    <Content Include="app\controllers\loginController.js" />
+    <Content Include="app\controllers\login\loginController.js" />
     <Content Include="app\controllers\navigationController.js" />
     <Content Include="app\partials\modal.html" />
     <Content Include="app\partials\dialog.html" />

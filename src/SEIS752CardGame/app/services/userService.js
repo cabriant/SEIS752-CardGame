@@ -26,17 +26,8 @@
                 });
         };
 
-        factory.checkAuth = function () {
-            if (factory.user != null && factory.user.isAuthenticated) {
-                return true;
-            }
-
-            return $http.get(serviceBase + 'authuser').then(
-                function(results) {
-                    var loggedIn = results.data.authenticated;
-                    changeAuth(loggedIn);
-                }
-            );
+        factory.getUser = function () {
+            return asyncGetUser();
         }
 
         factory.redirectToLogin = function () {
@@ -47,7 +38,28 @@
             factory.user = {
                 isAuthenticated: loggedIn
             };
-            $rootScope.$broadcast('loginStatusChanged', loggedIn);
+        }
+
+        function asyncGetUser() {
+            var deferred = $q.defer();
+
+            setTimeout(function() {
+                $rootScope.$apply(function() {
+                    if (factory.user == null) {
+                        $http.get(serviceBase + 'getuser').then(
+                            function(results) {
+                                var loggedIn = results.data.authenticated;
+                                changeAuth(loggedIn);
+                                deferred.resolve(factory.user);
+                            }
+                        );
+                    } else {
+                        deferred.resolve(factory.user);
+                    }
+                });
+            }, 25);
+
+            return deferred.promise;
         }
 
         return factory;

@@ -26,7 +26,7 @@ namespace SEIS752CardGame.Controllers
         }
 
         [HttpGet]
-        public AuthResponse AuthUser()
+        public AuthResponse GetUser()
         {
             var authVal = SessionDataPersistor.Instance.GetFromSession<string>("isAuth");
 

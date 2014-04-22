@@ -12,14 +12,14 @@
         <base href="/" />
     </head>
     <body data-ng-cloak="">
-        <header class="navbar navbar-default navbar-fixed-top bottom-box-shadow" data-ng-controller="NavigationController">
+        <header class="navbar navbar-default navbar-fixed-top bottom-box-shadow" data-ng-controller="NavigationController" data-ng-class="{'hidden':hide()}">
             <nav class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#/">
                         <span class="appTitle">{{ appTitle }}</span>
                     </a>
                 </div>
-                <a href="javascript:void(0);" id="nav-login" data-ng-click="loginOrOut()" class="pull-right">{{ loginLogoutText }}</a>
+                <a href="javascript:void(0);" id="nav-login" data-ng-click="logout()" class="pull-right">Logout</a>
             </nav>
         </header>
 
@@ -27,7 +27,7 @@
             <div data-ng-view="" id="ng-view" class="slide-animation"></div>
         </div>
 
-        <div id="footer">
+        <div id="footer" data-ng-controller="NavigationController" data-ng-class="{'hidden':hide()}">
             <div class="navbar navbar-fixed-bottom">
                 <div class="navbar-inner footer">
                     <div class="container">
@@ -60,7 +60,7 @@
         <script src="/app/services/httpInterceptors.js"></script>
     
         <!-- Controllers -->
-        <script src="/app/controllers/loginController.js"></script>
+        <script src="/app/controllers/login/loginController.js"></script>
         <script src="/app/controllers/navigationController.js"></script>
         <script src="/app/controllers/home/homeController.js"></script>
     </body>

@@ -1,6 +1,46 @@
 ﻿<div class="view">
     <div class="container">
-        Login Form
+        <div class="login-dialog">
+            <div class="login-content">
+                <form name="loginForm" novalidate>
+                    <div class="login">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="text" name="email" class="form-control" data-ng-model="email" required placeholder="Username..." />
+                                <span class="errorMessage" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
+                                    Email is required
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="password" name="password" class="form-control" 
+                                       data-ng-model="password" 
+                                       data-ng-minlength="6"
+                                       required placeholder="Password..." />
+                                <span class="errorMessage" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">
+                                    Password is required
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary" data-ng-click="login()" ng-disabled="loginForm.$invalid || !loginForm.$dirty">Login</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="statusRow">
+                            <br />
+                            <div class="label label-important" data-ng-show="errorMessage">
+                                Error: {{ errorMessage }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
