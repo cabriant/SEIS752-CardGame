@@ -128,6 +128,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.icon-large.min.css" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Content\images\social_facebook_box_blue.png" />
+    <Content Include="Content\images\social_google_box.png" />
+    <Content Include="Content\images\social_linkedin_box_blue.png" />
     <Content Include="Content\images\spinner.gif" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-ui-bootstrap.js" />

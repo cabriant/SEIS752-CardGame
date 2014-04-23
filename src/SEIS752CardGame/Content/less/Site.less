@@ -12,6 +12,41 @@ body {
 
         .login-content {
             margin: 15px;
+
+            .account-options {
+                text-align: center;
+            }
+
+            .horizontal-divider {
+                text-align: center;
+                margin: 12px 0;
+
+                .divider-word {
+                    font-weight: bold;
+                    font-size: 12px;
+                }
+
+                .divider {
+                    border-bottom: 1px solid #777777;
+                    width: 130px;
+                    position: relative;
+                    top: 10px;
+
+                    &.left {
+                        float: left;
+                        margin-left: 35px;
+                    }
+
+                    &.right {
+                        float: right;
+                        margin-right: 35px;
+                    }
+                }
+            }
+
+            .oauth-collection {
+                text-align: center;
+            }
         }
     }
 
