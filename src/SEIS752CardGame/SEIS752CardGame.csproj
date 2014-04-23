@@ -62,6 +62,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Oauth2Login">
+      <HintPath>..\packages\Oauth2Login.1.0.7\lib\Oauth2Login.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -134,7 +140,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\BaseWebController.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\UserServiceController.cs" />
     <Compile Include="Global.asax.cs">
@@ -192,7 +198,6 @@
     <Content Include="Content\less\vendor\utilities.less" />
     <Content Include="Content\less\vendor\variables.less" />
     <Content Include="Content\less\vendor\wells.less" />
-    <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Main\Index.cshtml" />
     <None Include="Web.Debug.config">
@@ -207,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\OAuth\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

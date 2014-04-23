@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    var NavigationController = function ($scope, $location, userService) {
+    var NavigationController = function ($scope, $location, $window, userService) {
         $scope.isCollapsed = false;
         $scope.appTitle = 'Card Game';
 
@@ -18,8 +18,7 @@
 
         function redirectToLogin() {
             var path = '/login' + $location.$$path;
-            $location.replace();
-            $location.path(path);
+            $window.location.href = path;
         }
 
         $scope.$on('redirectToLogin', function () {
@@ -28,7 +27,7 @@
 
     };
 
-    NavigationController.$inject = ['$scope', '$location', 'userService'];
+    NavigationController.$inject = ['$scope', '$location', '$window', 'userService'];
 
     angular.module(appModule).controller('NavigationController', NavigationController);
 

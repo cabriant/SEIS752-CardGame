@@ -58,6 +58,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseService.cs" />
     <Compile Include="CardGameDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,9 +74,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CardGameDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="GameService.cs" />
+    <Compile Include="IGameService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="test.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
