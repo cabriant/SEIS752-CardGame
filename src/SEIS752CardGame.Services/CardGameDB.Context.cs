@@ -13,10 +13,10 @@ namespace SEIS752CardGame.Services
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class seis752cardgameEntities : DbContext
+    public partial class CardGameDbEntities : DbContext
     {
-        public seis752cardgameEntities()
-            : base("name=seis752cardgameEntities")
+        public CardGameDbEntities()
+            : base("name=CardGameDbEntities")
         {
         }
     
@@ -25,6 +25,10 @@ namespace SEIS752CardGame.Services
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<test> tests { get; set; }
+        public DbSet<user> users { get; set; }
+        public DbSet<game> games { get; set; }
+        public DbSet<player_game> player_game { get; set; }
+        public DbSet<poker_table> poker_table { get; set; }
+        public DbSet<user_pwd_reset> user_pwd_reset { get; set; }
     }
 }

@@ -4,46 +4,399 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="seis752cardgameModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="seis752cardgameModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="seis752cardgameModelStoreContainer">
-          <EntitySet Name="test" EntityType="seis752cardgameModel.Store.test" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="game" EntityType="seis752cardgameModel.Store.game" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="player_game" EntityType="seis752cardgameModel.Store.player_game" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="player_table" EntityType="seis752cardgameModel.Store.player_table" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="poker_table" EntityType="seis752cardgameModel.Store.poker_table" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="user" EntityType="seis752cardgameModel.Store.user" store:Type="Tables" Schema="seis752cardgame" />
+          <EntitySet Name="user_pwd_reset" EntityType="seis752cardgameModel.Store.user_pwd_reset" store:Type="Tables" store:Schema="seis752cardgame" store:Name="user_pwd_reset">
+            <DefiningQuery>SELECT
+      `user_pwd_reset`.`user_id`, 
+      `user_pwd_reset`.`verification_code`, 
+      `user_pwd_reset`.`is_valid`, 
+      `user_pwd_reset`.`sent_to`, 
+      `user_pwd_reset`.`sent_date`, 
+      `user_pwd_reset`.`validated_date`
+      FROM `user_pwd_reset` AS `user_pwd_reset`</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_player_game_game_id" Association="seis752cardgameModel.Store.fk_player_game_game_id">
+            <End Role="game" EntitySet="game" />
+            <End Role="player_game" EntitySet="player_game" />
+          </AssociationSet>
+          <AssociationSet Name="fk_player_game_user_id" Association="seis752cardgameModel.Store.fk_player_game_user_id">
+            <End Role="user" EntitySet="user" />
+            <End Role="player_game" EntitySet="player_game" />
+          </AssociationSet>
+          <AssociationSet Name="fk_player_table_table_id" Association="seis752cardgameModel.Store.fk_player_table_table_id">
+            <End Role="poker_table" EntitySet="poker_table" />
+            <End Role="player_table" EntitySet="player_table" />
+          </AssociationSet>
+          <AssociationSet Name="fk_player_table_user_id" Association="seis752cardgameModel.Store.fk_player_table_user_id">
+            <End Role="user" EntitySet="user" />
+            <End Role="player_table" EntitySet="player_table" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user_pwd_reset_user_id" Association="seis752cardgameModel.Store.fk_user_pwd_reset_user_id">
+            <End Role="user" EntitySet="user" />
+            <End Role="user_pwd_reset" EntitySet="user_pwd_reset" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="test">
+        <EntityType Name="game">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="game_id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="30" />
+          <Property Name="game_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="table_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="game_state" Type="int" Nullable="false" />
+          <Property Name="house_cards" Type="varchar" MaxLength="500" />
+          <Property Name="table_pot_value" Type="int" Nullable="false" />
+          <Property Name="current_round_bet" Type="int" Nullable="false" />
+          <Property Name="req_player_action" Type="varchar" />
+          <Property Name="last_action" Type="varchar" MaxLength="255" />
+          <Property Name="last_raise_value" Type="int" Nullable="false" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+        <EntityType Name="player_game">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="game_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="game_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ante_bet" Type="int" />
+          <Property Name="amt_won_lost" Type="int" />
+          <Property Name="player_hand" Type="varchar" MaxLength="500" />
+          <Property Name="has_anted_bet" Type="bit" Nullable="false" />
+          <Property Name="player_actions" Type="varchar" />
+        </EntityType>
+        <EntityType Name="player_table">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="table_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="table_id" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="poker_table">
+          <Key>
+            <PropertyRef Name="table_id" />
+          </Key>
+          <Property Name="table_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="table_game_type" Type="int" Nullable="false" />
+          <Property Name="table_disp_name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ante" Type="int" />
+          <Property Name="max_raise" Type="int" />
+          <Property Name="max_players" Type="int" Nullable="false" />
+          <Property Name="table_deck" Type="varchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="email" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="user_pwd" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="display_name" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="phone_number" Type="varchar" MaxLength="35" />
+          <Property Name="user_type" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'def.seis752cardgame.user_pwd_reset' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="user_pwd_reset">
+          <Key>
+            <PropertyRef Name="verification_code" />
+            <PropertyRef Name="is_valid" />
+            <PropertyRef Name="sent_to" />
+            <PropertyRef Name="sent_date" />
+            <PropertyRef Name="validated_date" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="verification_code" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="is_valid" Type="bit" Nullable="false" />
+          <Property Name="sent_to" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="sent_date" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="validated_date" Type="timestamp" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_player_game_game_id">
+          <End Role="game" Type="seis752cardgameModel.Store.game" Multiplicity="1" />
+          <End Role="player_game" Type="seis752cardgameModel.Store.player_game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="game">
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="player_game">
+              <PropertyRef Name="game_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_player_game_user_id">
+          <End Role="user" Type="seis752cardgameModel.Store.user" Multiplicity="1" />
+          <End Role="player_game" Type="seis752cardgameModel.Store.player_game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="player_game">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_player_table_table_id">
+          <End Role="poker_table" Type="seis752cardgameModel.Store.poker_table" Multiplicity="1" />
+          <End Role="player_table" Type="seis752cardgameModel.Store.player_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="poker_table">
+              <PropertyRef Name="table_id" />
+            </Principal>
+            <Dependent Role="player_table">
+              <PropertyRef Name="table_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_player_table_user_id">
+          <End Role="user" Type="seis752cardgameModel.Store.user" Multiplicity="1" />
+          <End Role="player_table" Type="seis752cardgameModel.Store.player_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="player_table">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user_pwd_reset_user_id">
+          <End Role="user" Type="seis752cardgameModel.Store.user" Multiplicity="0..1" />
+          <End Role="user_pwd_reset" Type="seis752cardgameModel.Store.user_pwd_reset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="user_pwd_reset">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="seis752cardgameModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="seis752cardgameEntities" p1:LazyLoadingEnabled="true">
-          <EntitySet Name="tests" EntityType="seis752cardgameModel.test" />
+        <EntityContainer Name="CardGameDbEntities" p1:LazyLoadingEnabled="true" >
+          <EntitySet Name="users" EntityType="seis752cardgameModel.user" />
+          <EntitySet Name="games" EntityType="seis752cardgameModel.game" />
+          <EntitySet Name="player_game" EntityType="seis752cardgameModel.player_game" />
+          <EntitySet Name="poker_table" EntityType="seis752cardgameModel.poker_table" />
+          <EntitySet Name="user_pwd_reset" EntityType="seis752cardgameModel.user_pwd_reset" />
+          <AssociationSet Name="fk_player_game_game_id" Association="seis752cardgameModel.fk_player_game_game_id">
+            <End Role="game" EntitySet="games" />
+            <End Role="player_game" EntitySet="player_game" />
+          </AssociationSet>
+          <AssociationSet Name="fk_player_game_user_id" Association="seis752cardgameModel.fk_player_game_user_id">
+            <End Role="user" EntitySet="users" />
+            <End Role="player_game" EntitySet="player_game" />
+          </AssociationSet>
+          <AssociationSet Name="fk_user_pwd_reset_user_id" Association="seis752cardgameModel.fk_user_pwd_reset_user_id">
+            <End Role="user" EntitySet="users" />
+            <End Role="user_pwd_reset" EntitySet="user_pwd_reset" />
+          </AssociationSet>
+          <AssociationSet Name="player_table" Association="seis752cardgameModel.player_table">
+            <End Role="poker_table" EntitySet="poker_table" />
+            <End Role="user" EntitySet="users" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="test">
+        <EntityType Name="user">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="user_id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="user_pwd" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="phone_number" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="display_name" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="user_type" Nullable="false" />
+          <NavigationProperty Name="player_game" Relationship="seis752cardgameModel.fk_player_game_user_id" FromRole="user" ToRole="player_game" />
+          <NavigationProperty Name="user_pwd_reset" Relationship="seis752cardgameModel.fk_user_pwd_reset_user_id" FromRole="user" ToRole="user_pwd_reset" />
+          <NavigationProperty Name="poker_table" Relationship="seis752cardgameModel.player_table" FromRole="user" ToRole="poker_table" />
         </EntityType>
+        <EntityType Name="game">
+          <Key>
+            <PropertyRef Name="game_id" />
+          </Key>
+          <Property Type="String" Name="game_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="table_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="game_state" Nullable="false" />
+          <Property Type="String" Name="house_cards" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="table_pot_value" Nullable="false" />
+          <Property Type="Int32" Name="current_round_bet" Nullable="false" />
+          <Property Type="String" Name="req_player_action" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="last_action" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="last_raise_value" Nullable="false" />
+          <NavigationProperty Name="player_game" Relationship="seis752cardgameModel.fk_player_game_game_id" FromRole="game" ToRole="player_game" />
+        </EntityType>
+        <EntityType Name="player_game">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="game_id" />
+          </Key>
+          <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="game_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ante_bet" />
+          <Property Type="Int32" Name="amt_won_lost" />
+          <Property Type="String" Name="player_hand" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="has_anted_bet" Nullable="false" />
+          <Property Type="String" Name="player_actions" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="game" Relationship="seis752cardgameModel.fk_player_game_game_id" FromRole="player_game" ToRole="game" />
+          <NavigationProperty Name="user" Relationship="seis752cardgameModel.fk_player_game_user_id" FromRole="player_game" ToRole="user" />
+        </EntityType>
+        <EntityType Name="poker_table">
+          <Key>
+            <PropertyRef Name="table_id" />
+          </Key>
+          <Property Type="String" Name="table_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="table_game_type" Nullable="false" />
+          <Property Type="String" Name="table_disp_name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ante" />
+          <Property Type="Int32" Name="max_raise" />
+          <Property Type="Int32" Name="max_players" Nullable="false" />
+          <Property Type="String" Name="table_deck" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="users" Relationship="seis752cardgameModel.player_table" FromRole="poker_table" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user_pwd_reset">
+          <Key>
+            <PropertyRef Name="verification_code" />
+            <PropertyRef Name="is_valid" />
+            <PropertyRef Name="sent_to" />
+            <PropertyRef Name="sent_date" />
+            <PropertyRef Name="validated_date" />
+          </Key>
+          <Property Type="String" Name="user_id" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="verification_code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="is_valid" Nullable="false" />
+          <Property Type="String" Name="sent_to" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="sent_date" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="validated_date" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="seis752cardgameModel.fk_user_pwd_reset_user_id" FromRole="user_pwd_reset" ToRole="user" />
+        </EntityType>
+        <Association Name="fk_player_game_game_id">
+          <End Type="seis752cardgameModel.game" Role="game" Multiplicity="1" />
+          <End Type="seis752cardgameModel.player_game" Role="player_game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="game">
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="player_game">
+              <PropertyRef Name="game_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_player_game_user_id">
+          <End Type="seis752cardgameModel.user" Role="user" Multiplicity="1" />
+          <End Type="seis752cardgameModel.player_game" Role="player_game" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="player_game">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_user_pwd_reset_user_id">
+          <End Type="seis752cardgameModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="seis752cardgameModel.user_pwd_reset" Role="user_pwd_reset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="user_pwd_reset">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="player_table">
+          <End Type="seis752cardgameModel.poker_table" Role="poker_table" Multiplicity="*" />
+          <End Type="seis752cardgameModel.user" Role="user" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="seis752cardgameModelStoreContainer" CdmEntityContainer="seis752cardgameEntities">
-          <EntitySetMapping Name="tests">
-            <EntityTypeMapping TypeName="seis752cardgameModel.test">
-              <MappingFragment StoreEntitySet="test">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="name" ColumnName="name" />
+        <EntityContainerMapping StorageEntityContainer="seis752cardgameModelStoreContainer" CdmEntityContainer="CardGameDbEntities" >
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="seis752cardgameModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="user_type" ColumnName="user_type" />
+                <ScalarProperty Name="display_name" ColumnName="display_name" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="user_pwd" ColumnName="user_pwd" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="games">
+            <EntityTypeMapping TypeName="seis752cardgameModel.game">
+              <MappingFragment StoreEntitySet="game">
+                <ScalarProperty Name="last_raise_value" ColumnName="last_raise_value" />
+                <ScalarProperty Name="last_action" ColumnName="last_action" />
+                <ScalarProperty Name="req_player_action" ColumnName="req_player_action" />
+                <ScalarProperty Name="current_round_bet" ColumnName="current_round_bet" />
+                <ScalarProperty Name="table_pot_value" ColumnName="table_pot_value" />
+                <ScalarProperty Name="house_cards" ColumnName="house_cards" />
+                <ScalarProperty Name="game_state" ColumnName="game_state" />
+                <ScalarProperty Name="table_id" ColumnName="table_id" />
+                <ScalarProperty Name="game_id" ColumnName="game_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="player_game">
+            <EntityTypeMapping TypeName="seis752cardgameModel.player_game">
+              <MappingFragment StoreEntitySet="player_game">
+                <ScalarProperty Name="player_actions" ColumnName="player_actions" />
+                <ScalarProperty Name="has_anted_bet" ColumnName="has_anted_bet" />
+                <ScalarProperty Name="player_hand" ColumnName="player_hand" />
+                <ScalarProperty Name="amt_won_lost" ColumnName="amt_won_lost" />
+                <ScalarProperty Name="ante_bet" ColumnName="ante_bet" />
+                <ScalarProperty Name="game_id" ColumnName="game_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="poker_table">
+            <EntityTypeMapping TypeName="seis752cardgameModel.poker_table">
+              <MappingFragment StoreEntitySet="poker_table">
+                <ScalarProperty Name="table_deck" ColumnName="table_deck" />
+                <ScalarProperty Name="max_players" ColumnName="max_players" />
+                <ScalarProperty Name="max_raise" ColumnName="max_raise" />
+                <ScalarProperty Name="ante" ColumnName="ante" />
+                <ScalarProperty Name="table_disp_name" ColumnName="table_disp_name" />
+                <ScalarProperty Name="table_game_type" ColumnName="table_game_type" />
+                <ScalarProperty Name="table_id" ColumnName="table_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_pwd_reset">
+            <EntityTypeMapping TypeName="seis752cardgameModel.user_pwd_reset">
+              <MappingFragment StoreEntitySet="user_pwd_reset">
+                <ScalarProperty Name="validated_date" ColumnName="validated_date" />
+                <ScalarProperty Name="sent_date" ColumnName="sent_date" />
+                <ScalarProperty Name="sent_to" ColumnName="sent_to" />
+                <ScalarProperty Name="is_valid" ColumnName="is_valid" />
+                <ScalarProperty Name="verification_code" ColumnName="verification_code" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="player_table" TypeName="seis752cardgameModel.player_table" StoreEntitySet="player_table">
+            <EndProperty Name="user">
+              <ScalarProperty Name="user_id" ColumnName="user_id" />
+            </EndProperty>
+            <EndProperty Name="poker_table">
+              <ScalarProperty Name="table_id" ColumnName="table_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
