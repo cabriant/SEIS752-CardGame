@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Oauth2Login;
 using Oauth2Login.Client;
@@ -50,7 +51,19 @@ namespace SEIS752CardGame.Controllers
         [HttpGet]
         public ActionResult Auth(string state, string code)
         {
+            try
+            {
+                var token = _context.Token;
+                var result = _context.Profile;
+                var strResult = _context.Client.ProfileJsonString;
 
+                return Content("<div>token: "+token+"</div><div>strResult: "+strResult+"</div>");
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
 
             return null;
         }
