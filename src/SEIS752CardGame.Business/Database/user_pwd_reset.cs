@@ -7,22 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SEIS752CardGame.Services
+namespace SEIS752CardGame.Business.Database
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class player_game
+    public partial class user_pwd_reset
     {
         public string user_id { get; set; }
-        public string game_id { get; set; }
-        public Nullable<int> ante_bet { get; set; }
-        public Nullable<int> amt_won_lost { get; set; }
-        public string player_hand { get; set; }
-        public bool has_anted_bet { get; set; }
-        public string player_actions { get; set; }
+        public string verification_code { get; set; }
+        public bool is_valid { get; set; }
+        public string sent_to { get; set; }
+        public System.DateTime sent_date { get; set; }
+        public System.DateTime validated_date { get; set; }
     
-        public virtual game game { get; set; }
         public virtual user user { get; set; }
     }
 }

@@ -1,10 +1,114 @@
+-- create scripts
+
 create database seis752cardgame;
 
-create table test
+grant delete, insert, select, update on seis752cardgame.* to 'ezadmin'@'localhost';
+
+use seis752cardgame;
+
+-- "User" table
+create table user
 (
-	id int,
-	name varchar(30)
+	user_id varchar(50),
+	account_type int not null,
+	oauth_user_id varchar(50),
+	email varchar(255) not null,
+	user_pwd varchar(255),
+	display_name varchar(30) not null,
+	phone_number varchar(35),
+	user_type int not null default 0,
+	oauth_auth_token varchar(1000),
+	oauth_refresh_token varchar(1000)
 );
 
-alter table test
-add primary key (id);
+alter table user
+add primary key (user_id);
+
+alter table user
+add constraint user_email_constraint unique (email);
+
+alter table user
+add constraint user_disp_name_constraint unique (display_name);
+
+-- "Password reset" table
+create table user_pwd_reset
+(
+	user_id varchar(50),
+	verification_code varchar(50) not null,
+	is_valid bit not null default 1,
+	sent_to varchar(255) not null,
+	sent_date timestamp not null default now(),
+	validated_date timestamp
+);
+
+alter table user_pwd_reset
+add constraint fk_user_pwd_reset_user_id foreign key (user_id) references user(user_id);
+
+-- "Poker table" table
+create table poker_table
+(
+	table_id varchar(50),
+	table_game_type int not null,
+	table_disp_name varchar(50) not null,
+	ante int,
+	max_raise int,
+	max_players int not null,
+	table_deck varchar(4000)
+);
+
+alter table poker_table
+add primary key (table_id);
+
+-- "Player Table" table
+create table player_table
+(
+	user_id varchar(50) not null,
+	table_id varchar(50) not null
+);
+
+alter table player_table
+add primary key (user_id, table_id);
+
+alter table player_table
+add constraint fk_player_table_user_id foreign key (user_id) references user(user_id);
+
+alter table player_table
+add constraint fk_player_table_table_id foreign key (table_id) references poker_table(table_id);
+
+-- "Game" table
+create table game
+(
+	game_id varchar(50),
+	table_id varchar(50) not null,
+	game_state int not null,
+	house_cards varchar(500),
+	table_pot_value int not null,
+	current_round_bet int not null,
+	req_player_action varchar(1000),
+	last_action varchar(255),
+	last_raise_value int not null
+);
+
+alter table game
+add primary key (game_id);
+
+-- "Player game" table
+create table player_game
+(
+	user_id varchar(50),
+	game_id varchar(50),
+	ante_bet int,
+	amt_won_lost int,
+	player_hand varchar(500),
+	has_anted_bet bit not null default 0,
+	player_actions varchar(1000)
+);
+
+alter table player_game
+add primary key (user_id, game_id);
+
+alter table player_game
+add constraint fk_player_game_user_id foreign key (user_id) references user(user_id);
+
+alter table player_game
+add constraint fk_player_game_game_id foreign key (game_id) references game(game_id);

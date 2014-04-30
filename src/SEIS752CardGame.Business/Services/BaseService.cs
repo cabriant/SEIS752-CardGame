@@ -1,5 +1,5 @@
 ﻿
-namespace SEIS752CardGame.Services
+namespace SEIS752CardGame.Business.Services
 {
     public abstract class BaseService<T, I>
         where T : new()

@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AF7DC5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEIS752CardGame", "SEIS752CardGame\SEIS752CardGame.csproj", "{9070F180-9D2C-44CD-86C7-0EFB3918D2F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEIS752CardGame.Services", "SEIS752CardGame.Services\SEIS752CardGame.Services.csproj", "{44953BC5-63C0-4899-9B9D-87C38A8E5996}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SEIS752CardGame.Business", "SEIS752CardGame.Business\SEIS752CardGame.Business.csproj", "{586A7450-183E-4345-92EB-53D5B56D5D50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{9070F180-9D2C-44CD-86C7-0EFB3918D2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9070F180-9D2C-44CD-86C7-0EFB3918D2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9070F180-9D2C-44CD-86C7-0EFB3918D2F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44953BC5-63C0-4899-9B9D-87C38A8E5996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44953BC5-63C0-4899-9B9D-87C38A8E5996}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44953BC5-63C0-4899-9B9D-87C38A8E5996}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44953BC5-63C0-4899-9B9D-87C38A8E5996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{586A7450-183E-4345-92EB-53D5B56D5D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{586A7450-183E-4345-92EB-53D5B56D5D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{586A7450-183E-4345-92EB-53D5B56D5D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{586A7450-183E-4345-92EB-53D5B56D5D50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

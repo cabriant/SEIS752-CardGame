@@ -94,11 +94,15 @@
             <PropertyRef Name="user_id" />
           </Key>
           <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="account_type" Type="int" Nullable="false" />
+          <Property Name="oauth_user_id" Type="varchar" MaxLength="50" />
           <Property Name="email" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="user_pwd" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="user_pwd" Type="varchar" MaxLength="255" />
           <Property Name="display_name" Type="varchar" Nullable="false" MaxLength="30" />
           <Property Name="phone_number" Type="varchar" MaxLength="35" />
           <Property Name="user_type" Type="int" Nullable="false" />
+          <Property Name="oauth_auth_token" Type="varchar" />
+          <Property Name="oauth_refresh_token" Type="varchar" />
         </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'def.seis752cardgame.user_pwd_reset' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
@@ -218,6 +222,10 @@
           <NavigationProperty Name="player_game" Relationship="seis752cardgameModel.fk_player_game_user_id" FromRole="user" ToRole="player_game" />
           <NavigationProperty Name="user_pwd_reset" Relationship="seis752cardgameModel.fk_user_pwd_reset_user_id" FromRole="user" ToRole="user_pwd_reset" />
           <NavigationProperty Name="poker_table" Relationship="seis752cardgameModel.player_table" FromRole="user" ToRole="poker_table" />
+          <Property Type="Int32" Name="account_type" Nullable="false" />
+          <Property Type="String" Name="oauth_user_id" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="oauth_auth_token" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="oauth_refresh_token" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="game">
           <Key>
@@ -327,6 +335,10 @@
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="seis752cardgameModel.user">
               <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="oauth_refresh_token" ColumnName="oauth_refresh_token" />
+                <ScalarProperty Name="oauth_auth_token" ColumnName="oauth_auth_token" />
+                <ScalarProperty Name="oauth_user_id" ColumnName="oauth_user_id" />
+                <ScalarProperty Name="account_type" ColumnName="account_type" />
                 <ScalarProperty Name="user_type" ColumnName="user_type" />
                 <ScalarProperty Name="display_name" ColumnName="display_name" />
                 <ScalarProperty Name="phone_number" ColumnName="phone_number" />
