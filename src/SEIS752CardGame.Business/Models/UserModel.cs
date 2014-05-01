@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SEIS752CardGame.Business.Database;
 
 namespace SEIS752CardGame.Business.Models
 {
@@ -33,6 +32,12 @@ namespace SEIS752CardGame.Business.Models
 			Type = (UserType) u.user_type;
 			OAuthToken = u.oauth_auth_token;
 			OAuthRefreshToken = u.oauth_refresh_token;
+		}
+
+		public UserModel(AccountType accountType, UserType userType)
+		{
+			AcctType = accountType;
+			Type = userType;
 		}
 
 		public string Id { get; set; }

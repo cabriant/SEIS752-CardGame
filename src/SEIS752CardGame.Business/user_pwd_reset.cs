@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SEIS752CardGame.Business.Database
+namespace SEIS752CardGame.Business
 {
     using System;
     using System.Collections.Generic;

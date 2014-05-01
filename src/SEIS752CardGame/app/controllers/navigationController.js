@@ -5,7 +5,7 @@
         $scope.appTitle = 'Card Game';
 
         $scope.hide = function () {
-            return ($location.path().indexOf("/login") >= 0);
+            return shouldHide();
         };
 
         $scope.logout = function () {
@@ -20,6 +20,10 @@
             var path = '/login' + $location.$$path;
             $window.location.href = path;
         }
+		
+		function shouldHide() {
+			return ($location.path().indexOf("/login") >= 0) || ($location.path().indexOf("/account/create") >= 0);
+		}
 
         $scope.$on('redirectToLogin', function () {
             redirectToLogin();

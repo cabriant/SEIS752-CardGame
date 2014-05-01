@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SEIS752CardGame.Business.Database;
 using SEIS752CardGame.Business.Models;
 
 namespace SEIS752CardGame.Business.Services
 {
-	public class UserService : BaseService<UserService, IUserService>
+	public class UserService : BaseService<UserService, IUserService>, IUserService
 	{
 		public UserModel GetUser(string userId)
 		{

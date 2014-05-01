@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web;
-using SEIS752CardGame.Business.Database;
 
 namespace SEIS752CardGame.Business.Utilities
 {
@@ -26,7 +25,7 @@ namespace SEIS752CardGame.Business.Utilities
 					//covers edge case where the ObjectContext was disposed (e.g. by a "using" statement)
 					try
 					{
-						var chkDispose = ((CardGameDbEntities)HttpContext.Current.Items[SESSION_DB_KEY]).Database.Connection;
+						var chkDispose = ((CardGameDbEntities)HttpContext.Current.Items[SESSION_DB_KEY]);
 					}
 					catch (ObjectDisposedException)
 					{

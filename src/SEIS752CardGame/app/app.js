@@ -12,6 +12,10 @@
                 templateUrl: '/app/views/home/home.html',
                 reqSession: true
             })
+			.when('/account/create', {
+				controller: 'AccountController',
+				templateUrl: '/app/views/account/create.html'
+	        })
             .when('/login/:redirect*', {
                 controller: 'LoginController',
                 templateUrl: '/app/views/login/login.html'
