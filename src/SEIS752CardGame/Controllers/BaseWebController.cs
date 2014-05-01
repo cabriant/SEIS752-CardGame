@@ -1,4 +1,5 @@
-﻿using SEIS752CardGame.Utilities;
+﻿using SEIS752CardGame.Business.Models;
+using SEIS752CardGame.Utilities;
 using System.Web.Mvc;
 
 namespace SEIS752CardGame.Controllers
@@ -7,8 +8,8 @@ namespace SEIS752CardGame.Controllers
     {
         protected bool IsUserAuthenticated()
         {
-            var authVal = SessionDataPersistor.Instance.GetFromSession<string>("isAuth");
-            return ("Y".Equals(authVal));
+            var user = SessionDataPersistor.Instance.GetFromSession<UserModel>(SessionDataPersistor.SessionKey.UserKey);
+            return (user != null);
         }
     }
 }

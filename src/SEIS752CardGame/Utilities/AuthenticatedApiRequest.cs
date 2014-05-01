@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using SEIS752CardGame.Business.Models;
 
 namespace SEIS752CardGame.Utilities
 {
@@ -10,8 +11,8 @@ namespace SEIS752CardGame.Utilities
     {
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
-            var authVal = SessionDataPersistor.Instance.GetFromSession<string>("isAuth");
-            return ("Y".Equals(authVal));
+            var user = SessionDataPersistor.Instance.GetFromSession<UserModel>(SessionDataPersistor.SessionKey.UserKey);
+            return (user != null);
         }
 
         protected override void HandleUnauthorizedRequest(HttpActionContext filterContext)

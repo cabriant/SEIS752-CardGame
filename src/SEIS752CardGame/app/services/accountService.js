@@ -14,11 +14,11 @@
 		};
 
 		factory.cancelCreate = function() {
-			redirectToLogin();
+			redirectToRoot();
 		};
 
-		function redirectToLogin() {
-			$rootScope.$broadcast('redirectToLogin', null);
+		function redirectToRoot() {
+			$rootScope.$broadcast('redirectToRoot', null);
 		};
 
 		return factory;

@@ -8,15 +8,15 @@
         $scope.isEmailValid = true;
 
         $scope.login = function () {
-            userService.login($scope.email, $scope.password).then(function (status) {
+            userService.login($scope.email, $scope.password).then(function (response) {
                 //$routeParams.redirect will have the route
                 //they were trying to go to initially
-                if (!status) {
-                    $scope.errorMessage = 'Unable to login';
+            	if (!response.authenticated) {
+            		$scope.errorMessage = response.error;
                     return;
                 }
 
-                if (status && $routeParams && $routeParams.redirect) {
+            	if (response.authenticated && $routeParams && $routeParams.redirect) {
                     path = path + $routeParams.redirect;
                 }
 

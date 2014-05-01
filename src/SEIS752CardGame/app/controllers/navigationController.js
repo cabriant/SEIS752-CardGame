@@ -21,6 +21,11 @@
             $window.location.href = path;
         }
 		
+		function redirectToRoot() {
+			var path = "/";
+			$window.location.href = path;
+		}
+
 		function shouldHide() {
 			return ($location.path().indexOf("/login") >= 0) || ($location.path().indexOf("/account/create") >= 0);
 		}
@@ -29,6 +34,9 @@
             redirectToLogin();
         });
 
+	    $scope.$on('redirectToRoot', function() {
+		    redirectToRoot();
+	    });
     };
 
     NavigationController.$inject = ['$scope', '$location', '$window', 'userService'];

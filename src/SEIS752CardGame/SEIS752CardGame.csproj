@@ -171,6 +171,7 @@
     <Compile Include="Models\Account\AccountCreateResponse.cs" />
     <Compile Include="Models\Login\LoginModel.cs" />
     <Compile Include="Models\Login\AuthResponse.cs" />
+    <Compile Include="Models\User\DisplayUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AuthenticatedApiRequest.cs" />
     <Compile Include="Utilities\AuthenticatedWebRequest.cs" />

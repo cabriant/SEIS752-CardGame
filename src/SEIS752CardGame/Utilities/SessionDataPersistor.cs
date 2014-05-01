@@ -8,6 +8,11 @@ namespace SEIS752CardGame.Utilities
 {
     public class SessionDataPersistor
     {
+		public enum SessionKey
+		{
+			UserKey
+		}
+
         private static SessionDataPersistor _instance;
 
         // Singleton
@@ -18,14 +23,14 @@ namespace SEIS752CardGame.Utilities
             get { return _instance ?? (_instance = new SessionDataPersistor()); }
         }
 
-        public void StoreInSession<T>(string key, T value) where T : class
+        public void StoreInSession<T>(SessionKey key, T value) where T : class
         {
-            HttpContext.Current.Session[key] = value;
+            HttpContext.Current.Session[key.ToString()] = value;
         }
 
-        public T GetFromSession<T>(string key) where T : class
+        public T GetFromSession<T>(SessionKey key) where T : class
         {
-            return HttpContext.Current.Session[key] as T;
+            return HttpContext.Current.Session[key.ToString()] as T;
         }
 
         public void PurgeSession()

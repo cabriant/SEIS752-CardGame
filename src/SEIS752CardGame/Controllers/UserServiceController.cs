@@ -1,5 +1,8 @@
 ﻿using System.Web.Http;
+using SEIS752CardGame.Business.Models;
+using SEIS752CardGame.Business.Services;
 using SEIS752CardGame.Models.Login;
+using SEIS752CardGame.Models.User;
 using SEIS752CardGame.Utilities;
 
 namespace SEIS752CardGame.Controllers
@@ -9,10 +12,19 @@ namespace SEIS752CardGame.Controllers
         [HttpPost]
         public AuthResponse Login([FromBody]LoginModel model)
         {
-            var response = new AuthResponse() { Authenticated = true };
+	        var user = UserService.Instance.AuthenticateUser(model.Username, model.Password);
 
-            SessionDataPersistor.Instance.StoreInSession("isAuth", "Y");
-
+	        var response = new AuthResponse {Authenticated = (user != null)};
+	        if (user != null)
+	        {
+				SessionDataPersistor.Instance.StoreInSession(SessionDataPersistor.SessionKey.UserKey, user);
+		        response.User = new DisplayUserModel() {DisplayName = user.DisplayName, Id = user.Id};
+	        }
+	        else
+	        {
+		        response.Error = "The email or password does not match our records. Please try again.";
+	        }
+			
             return response;
         }
 
@@ -28,9 +40,17 @@ namespace SEIS752CardGame.Controllers
         [HttpGet]
         public AuthResponse GetUser()
         {
-            var authVal = SessionDataPersistor.Instance.GetFromSession<string>("isAuth");
+            var user = SessionDataPersistor.Instance.GetFromSession<UserModel>(SessionDataPersistor.SessionKey.UserKey);
 
-            var response = new AuthResponse() {Authenticated = ("Y".Equals(authVal)) };
+			// Session died or they were never authenticated, must re-login
+			if (user == null)
+				return new AuthResponse { Authenticated = false };
+
+			var response = new AuthResponse()
+			{
+				Authenticated = true,
+				User = new DisplayUserModel { DisplayName = user.DisplayName, Id = user.Id }
+			};
 
             return response;
         }

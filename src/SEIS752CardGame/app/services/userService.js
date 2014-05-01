@@ -11,9 +11,9 @@
             var obj = JSON.stringify({ username: email, password: password });
             return $http.post(serviceBase + 'login', obj, { headers: { 'Content-Type': 'application/json' } }).then(
                 function(results) {
-                    var loggedIn = results.data.authenticated;
-                    changeAuth(loggedIn);
-                    return loggedIn;
+                	var loggedIn = results.data.authenticated;
+                    changeAuth(results.data);
+                    return { authenticated: loggedIn, error: results.data.error };
                 });
         };
 
@@ -21,7 +21,7 @@
             return $http.post(serviceBase + 'logout').then(
                 function (results) {
                     var loggedIn = results.data.authenticated;
-                    changeAuth(loggedIn);
+                    changeAuth(results.data);
                     return loggedIn;
                 });
         };
@@ -34,10 +34,18 @@
             $rootScope.$broadcast('redirectToLogin', null);
         };
 
-        function changeAuth(loggedIn) {
-            factory.user = {
-                isAuthenticated: loggedIn
-            };
+        function changeAuth(response) {
+			if (response.authenticated) {
+				factory.user = {
+					isAuthenticated: true,
+					profile: response.user
+				};
+			} else {
+				factory.user = {
+					isAuthenticated: false,
+					profile: null
+				};
+			}
         }
 
         function asyncGetUser() {
@@ -48,8 +56,7 @@
                     if (factory.user == null) {
                         $http.get(serviceBase + 'getuser').then(
                             function(results) {
-                                var loggedIn = results.data.authenticated;
-                                changeAuth(loggedIn);
+                                changeAuth(results.data);
                                 deferred.resolve(factory.user);
                             }
                         );
