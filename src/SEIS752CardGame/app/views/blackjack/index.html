@@ -1,0 +1,17 @@
+﻿<div class="view">
+	<div class="container">
+		<div class="text-center">
+			<h2>Blackjack</h2>
+		</div>
+		<div class="table-grid-container row">
+			<div class="col-md-3" ng-repeat="table in tables">
+				<div>
+					{{ table.displayName }}
+				</div>
+				<div>
+					<a href="/blackjack/table/{{ table.id }}">Join Game</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

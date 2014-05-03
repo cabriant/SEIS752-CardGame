@@ -99,6 +99,7 @@
     <Compile Include="game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="player_game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
@@ -107,8 +108,8 @@
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\IGameService.cs" />
+    <Compile Include="Services\ITableService.cs" />
+    <Compile Include="Services\TableService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="user.cs">

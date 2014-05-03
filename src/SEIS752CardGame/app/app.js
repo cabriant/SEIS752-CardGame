@@ -20,6 +20,11 @@
 				controller: 'AccountController',
 				templateUrl: '/app/views/account/forgot.html'
 			})
+			.when('/blackjack', {
+				controller: 'BlackjackController',
+				templateUrl: '/app/views/blackjack/index.html',
+				reqSession: true
+	        })
             .when('/login/:redirect*', {
                 controller: 'LoginController',
                 templateUrl: '/app/views/login/login.html'
