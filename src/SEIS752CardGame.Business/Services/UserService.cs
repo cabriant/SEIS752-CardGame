@@ -42,7 +42,8 @@ namespace SEIS752CardGame.Business.Services
 				phone_number = model.PhoneNumber,
 				user_type = (int)model.Type,
 				oauth_auth_token = model.OAuthToken,
-				oauth_refresh_token = model.OAuthRefreshToken
+				oauth_refresh_token = model.OAuthRefreshToken,
+				account_value = 5000
 			};
 
 			var context = Utilities.Database.GetContext();
