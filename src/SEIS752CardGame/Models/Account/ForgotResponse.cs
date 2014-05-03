@@ -5,9 +5,10 @@ using System.Web;
 
 namespace SEIS752CardGame.Models.Account
 {
-	public class AccountCreateResponse
+	public class ForgotResponse
 	{
 		public bool Success { get; set; }
+		public string Token { get; set; }
 		public List<string> Errors { get; set; } 
 	}
 }

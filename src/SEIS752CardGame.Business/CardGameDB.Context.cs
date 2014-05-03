@@ -25,10 +25,10 @@ namespace SEIS752CardGame.Business
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<user> users { get; set; }
         public DbSet<game> games { get; set; }
         public DbSet<player_game> player_game { get; set; }
         public DbSet<poker_table> poker_table { get; set; }
+        public DbSet<user> users { get; set; }
         public DbSet<user_pwd_reset> user_pwd_reset { get; set; }
     }
 }

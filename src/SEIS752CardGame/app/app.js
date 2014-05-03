@@ -15,7 +15,11 @@
 			.when('/account/create', {
 				controller: 'AccountController',
 				templateUrl: '/app/views/account/create.html'
-	        })
+			})
+			.when('/account/forgot', {
+				controller: 'AccountController',
+				templateUrl: '/app/views/account/forgot.html'
+			})
             .when('/login/:redirect*', {
                 controller: 'LoginController',
                 templateUrl: '/app/views/login/login.html'

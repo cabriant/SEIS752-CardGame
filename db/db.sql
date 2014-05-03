@@ -18,7 +18,8 @@ create table user
 	phone_number varchar(35),
 	user_type int not null default 0,
 	oauth_auth_token varchar(1000),
-	oauth_refresh_token varchar(1000)
+	oauth_refresh_token varchar(1000),
+	account_value int not null default 0
 );
 
 alter table user
@@ -33,13 +34,19 @@ add constraint user_disp_name_constraint unique (display_name);
 -- "Password reset" table
 create table user_pwd_reset
 (
-	user_id varchar(50),
+	user_id varchar(50) not null,
 	verification_code varchar(50) not null,
-	is_valid bit not null default 1,
-	sent_to varchar(255) not null,
+	verification_token varchar(50),
+	is_code_valid bit not null default 1,
+	is_token_valid bit not null default 0,
+	code_sent_to varchar(255) not null,
 	sent_date timestamp not null default now(),
-	validated_date timestamp
+	code_validation_date timestamp,
+	token_validation_date timestamp
 );
+
+alter table user_pwd_reset
+add primary key (user_id, verification_code, sent_date);
 
 alter table user_pwd_reset
 add constraint fk_user_pwd_reset_user_id foreign key (user_id) references user(user_id);

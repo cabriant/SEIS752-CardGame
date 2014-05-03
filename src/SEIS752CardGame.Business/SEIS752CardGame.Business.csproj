@@ -99,24 +99,24 @@
     <Compile Include="game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="player_game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="poker_table.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\IGameService.cs" />
+    <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="user.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="user_pwd_reset.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserModel.cs" />
-    <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\GameService.cs" />
-    <Compile Include="Services\IGameService.cs" />
-    <Compile Include="Services\IUserService.cs" />
-    <Compile Include="Services\UserService.cs" />
     <Compile Include="Utilities\Database.cs" />
   </ItemGroup>
   <ItemGroup>

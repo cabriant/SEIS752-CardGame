@@ -7,9 +7,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <input type="text" name="email" class="form-control" data-ng-model="email" required placeholder="Username..." />
-                                <span class="errorMessage" ng-show="loginForm.email.$dirty && loginForm.email.$invalid">
-                                    Email is required
-                                </span>
                             </div>
                         </div>
                         <br />
@@ -39,7 +36,7 @@
                         <div class="account-options">
                             <a href="/account/create" title="Create an Account">Create an Account</a>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="/">Forgot my Password</a>
+                            <a href="/account/forgot">Forgot my Password</a>
                         </div>
                         <div class="horizontal-divider">
                             <span class="divider left"></span>

@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="82da21ff936b49b28483945de1095673" Name="Diagram1" >
-        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="11.992397524412906" PointY="30.487238138209673" />
-        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="4.6408197081837894" PointY="22.805902879129118" />
-        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="8.7337083149392658" PointY="10.511701976187389" />
-        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="0.76881106419899092" PointY="27.216541600980118" />
-        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="9.0567317647192311" PointY="25.195582774093179" />
+        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="8.7820268966173884" PointY="20.209854344003766" />
+        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="8.0864865575388478" PointY="2.8195938183085962" />
+        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="10.9565885956197" PointY="23.111309345397778" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="8.00318533741086" PointY="17.966612705014" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="6.0691632097909052" PointY="5.2385268682793376" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_game_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_user_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_user_pwd_reset_user_id" />

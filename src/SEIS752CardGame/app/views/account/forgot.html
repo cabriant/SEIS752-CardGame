@@ -1,0 +1,92 @@
+﻿<div class="view">
+	<div class="container">
+		<div class="row inner-content">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="text-center">
+					<h3>Password Reset</h3>
+				</div>
+				<div ng-show="validationErrors.length">
+					<div class="alert alert-danger col-md-8 col-md-offset-2">
+						<div>Please correct the following error(s):</div>
+						<ul>
+							<li ng-repeat="error in validationErrors">
+								{{ error }}
+							</li>
+						</ul>
+					</div>
+				</div>
+				<form name="forgot-password-form" novalidate ng-show="!codeSent">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div class="reset-instructions">
+								To reset your password, enter the email address that is attached 
+								to your account.  A verification code will be sent to the 
+								mobile phone number on record.
+							</div>
+							<div class="form-group">
+								<label for="email">Email address</label>
+								<input id="email" type="text" name="email" class="form-control" data-ng-model="email" required placeholder="Email..." />
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" data-ng-click="forgot()">Submit</button>
+						&nbsp;&nbsp;
+						<button type="button" class="btn" data-ng-click="cancel()">Cancel</button>
+					</div>
+				</form>
+				<form name="code-verification-form" novalidate ng-show="codeSent && !codeValid">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div class="reset-instructions">
+								Enter the code received on your mobile device to verify your identity.
+							</div>
+							<div class="form-group">
+								<label for="code">Code</label>
+								<input id="code" type="text" name="code" class="form-control" data-ng-model="code" required placeholder="Code..." />
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" data-ng-click="verifyCode()">Submit</button>
+					</div>
+				</form>
+				<form name="password-reset-form" novalidate ng-show="codeValid && !passwordReset">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3">
+							<div class="reset-instructions">
+								Enter a new password for your account.
+							</div>
+							<div class="form-group">
+								<label for="pwdReset">Password</label>
+								<input id="pwdReset" type="password" name="pwdReset" class="form-control" data-ng-model="password" required placeholder="Password..." />
+							</div>
+							<div class="form-group">
+								<label for="pwdResetConfirm">Confirm Password</label>
+								<input id="pwdResetConfirm" type="password" name="pwdResetConfirm" class="form-control" data-ng-model="confirmPassword" required placeholder="Confirm Password..." />
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary" data-ng-click="resetPassword()">Submit</button>
+					</div>
+				</form>
+				<div ng-show="passwordReset">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3 text-center">
+							Your password has been reset.
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3 text-center">
+							<button type="button" class="btn btn-primary" data-ng-click="loginWithNewPassword()">Log In</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			Copyright &copy; 2014 Element Zero Solutions, LLC
+		</div>
+	</div>
+</div>

@@ -27,7 +27,9 @@
 		}
 
 		function shouldHide() {
-			return ($location.path().indexOf("/login") >= 0) || ($location.path().indexOf("/account/create") >= 0);
+			return ($location.path().indexOf("/login") >= 0) ||
+				($location.path().indexOf("/account/create") >= 0) ||
+				($location.path().indexOf("/account/forgot") >= 0);
 		}
 
         $scope.$on('redirectToLogin', function () {

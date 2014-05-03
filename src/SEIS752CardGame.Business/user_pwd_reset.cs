@@ -16,10 +16,13 @@ namespace SEIS752CardGame.Business
     {
         public string user_id { get; set; }
         public string verification_code { get; set; }
-        public bool is_valid { get; set; }
-        public string sent_to { get; set; }
+        public string verification_token { get; set; }
+        public bool is_code_valid { get; set; }
+        public bool is_token_valid { get; set; }
+        public string code_sent_to { get; set; }
         public System.DateTime sent_date { get; set; }
-        public System.DateTime validated_date { get; set; }
+        public Nullable<System.DateTime> code_validation_date { get; set; }
+        public Nullable<System.DateTime> token_validation_date { get; set; }
     
         public virtual user user { get; set; }
     }
