@@ -26,6 +26,11 @@ namespace SEIS752CardGame.Business.Models
 			NumOfPlayers = table.users.Count;
 		}
 
+		public TableModel(PokerGameType gameType)
+		{
+			GameType = gameType;
+		}
+
 		public string Id { get; set; }
 		public PokerGameType GameType { get; set; }
 		public string DisplayName { get; set; }

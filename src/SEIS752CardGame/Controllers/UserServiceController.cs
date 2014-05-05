@@ -54,5 +54,14 @@ namespace SEIS752CardGame.Controllers
 
             return response;
         }
+
+	    [HttpGet, AuthenticatedApiRequest]
+	    public AccessResponse UserAccess()
+	    {
+		    var user = SessionDataPersistor.Instance.GetFromSession<UserModel>(SessionDataPersistor.SessionKey.UserKey);
+
+			var isAdmin = (user.Type == UserModel.UserType.Admin);
+			return new AccessResponse { Success = true, Create = isAdmin, Edit = isAdmin, Delete = isAdmin, Read = true };
+	    }
     }
 }

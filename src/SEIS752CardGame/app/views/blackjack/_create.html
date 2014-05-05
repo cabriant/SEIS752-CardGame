@@ -1,0 +1,31 @@
+﻿<div class="modal-header">
+	<h3 class="modal-title">Blackjack - Create Table</h3>
+</div>
+<div class="modal-body">
+	<form name="create-blackjack-table-form" novalidate>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label for="name">Table Name</label>
+				<input id="name" type="text" name="name" class="form-control" data-ng-model="tableInfo.name" required placeholder="Table name..." />
+			</div>
+			<div class="form-group col-md-6">
+				<label for="max-players">Max Players</label>
+				<input id="max-players" type="number" name="max-players" class="form-control" data-ng-model="tableInfo.maxPlayers" min="2" max="8" required />
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label for="ante">Ante</label>
+				<input id="ante" type="number" name="ante" class="form-control" data-ng-model="tableInfo.ante" min="0" step="25" max="1000000" />
+			</div>
+			<div class="form-group col-md-6">
+				<label for="max-raise">Max Raise</label>
+				<input id="max-raise" type="number" name="max-raise" class="form-control" data-ng-model="tableInfo.maxRaise" min="0" max="10000000" step="25" />
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()">Create</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

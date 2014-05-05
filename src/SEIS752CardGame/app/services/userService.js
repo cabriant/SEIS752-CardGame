@@ -30,6 +30,18 @@
             return asyncGetUser();
         }
 
+		factory.getAccess = function() {
+			var deferred = $q.defer();
+			$http.get(serviceBase + 'useraccess')
+				.success(function (data) {
+					deferred.resolve(data);
+				}).error(function (data) {
+					deferred.reject(data);
+				});
+
+			return deferred.promise;
+		}
+
         factory.redirectToLogin = function () {
             $rootScope.$broadcast('redirectToLogin', null);
         };

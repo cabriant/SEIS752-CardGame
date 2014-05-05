@@ -6,23 +6,28 @@
 
     app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-        $routeProvider
-            .when('/home', {
-                controller: 'HomeController',
-                templateUrl: '/app/views/home/home.html',
-                reqSession: true
-            })
-			.when('/account/create', {
-				controller: 'AccountController',
-				templateUrl: '/app/views/account/create.html'
-			})
-			.when('/account/forgot', {
-				controller: 'AccountController',
-				templateUrl: '/app/views/account/forgot.html'
-			})
-			.when('/blackjack', {
-				controller: 'BlackjackController',
-				templateUrl: '/app/views/blackjack/index.html',
+	    $routeProvider
+		    .when('/home', {
+			    controller: 'HomeController',
+			    templateUrl: '/app/views/home/home.html',
+			    reqSession: true
+		    })
+		    .when('/account/create', {
+			    controller: 'AccountController',
+			    templateUrl: '/app/views/account/create.html'
+		    })
+		    .when('/account/forgot', {
+			    controller: 'AccountController',
+			    templateUrl: '/app/views/account/forgot.html'
+		    })
+		    .when('/blackjack', {
+			    controller: 'BlackjackController',
+			    templateUrl: '/app/views/blackjack/index.html',
+			    reqSession: true
+		    })
+			.when('/blackjack/table/:tableId', {
+				controller: 'BlackjackTableController',
+				templateUrl: '/app/views/blackjack/table.html',
 				reqSession: true
 	        })
             .when('/login/:redirect*', {

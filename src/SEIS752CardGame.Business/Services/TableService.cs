@@ -58,9 +58,9 @@ namespace SEIS752CardGame.Business.Services
 				max_players = table.MaxPlayers
 			};
 
-			if (table.Ante > 0)
+			if (table.Ante.HasValue && table.Ante.Value > 0)
 				newTable.ante = table.Ante;
-			if (table.MaxRaise > 0)
+			if (table.MaxRaise.HasValue && table.MaxRaise.Value > 0)
 				newTable.max_raise = table.MaxRaise;
 
 			var context = Database.GetContext();

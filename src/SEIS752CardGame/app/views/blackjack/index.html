@@ -3,6 +3,11 @@
 		<div class="text-center">
 			<h2>Blackjack</h2>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<button type="button" title="Create" class="btn btn-primary pull-right" ng-show="canCreate" data-ng-click="create()">Create</button>
+			</div>
+		</div>
 		<div class="table-grid-container row">
 			<div class="col-md-3" ng-repeat="table in tables">
 				<div>
