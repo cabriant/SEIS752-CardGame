@@ -12,7 +12,7 @@ namespace SEIS752CardGame.Business.Services
 	    bool CheckDisplayNameInUse(string displayName);
 	    bool UpdateUserCashValue(string userId, int amtAddSub);
 	    int GetUserAccountValue(string userId);
-	    void CreateAndSendResetCode(string email);
+		string CreateResetCode(string email, out string phoneNumber);
 	    string ValidateCodeAndCreateToken(string email, string code);
 	    bool ValidateTokenAndResetPassword(string email, string token, string newPassword);
     }

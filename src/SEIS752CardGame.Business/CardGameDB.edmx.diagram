@@ -5,15 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="82da21ff936b49b28483945de1095673" Name="Diagram1" >
-        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="8.7820268966173884" PointY="20.209854344003766" />
-        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="8.0864865575388478" PointY="2.8195938183085962" />
-        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="10.9565885956197" PointY="23.111309345397778" />
-        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="8.00318533741086" PointY="17.966612705014" />
-        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="6.0691632097909052" PointY="5.2385268682793376" />
+        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="1.3130326090906899" PointY="16.872065224159538" />
+        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="5.3736072971362656" PointY="4.028599547235574" />
+        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="3.0281984168236136" PointY="22.839304472710612" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="2.6448817582078661" PointY="9.313059557840722" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="8.1763516683952666" PointY="25.253082540469748" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_game_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_user_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_user_pwd_reset_user_id" />
         <AssociationConnector Association="seis752cardgameModel.player_table" />
+        <EntityTypeShape EntityType="seis752cardgameModel.configuration" Width="1.5" PointX="6.625" PointY="8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

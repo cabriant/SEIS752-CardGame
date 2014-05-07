@@ -7,5 +7,6 @@ drop table player_table;
 drop table poker_table;
 drop table user_pwd_reset;
 drop table user;
+drop table configuration;
 
 drop database seis752cardgame;

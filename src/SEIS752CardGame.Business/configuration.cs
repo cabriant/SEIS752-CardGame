@@ -12,17 +12,10 @@ namespace SEIS752CardGame.Business
     using System;
     using System.Collections.Generic;
     
-    public partial class user_pwd_reset
+    public partial class configuration
     {
-        public string request_id { get; set; }
-        public string user_id { get; set; }
-        public string verification_code { get; set; }
-        public string verification_token { get; set; }
-        public bool is_code_valid { get; set; }
-        public bool is_token_valid { get; set; }
-        public string code_sent_to { get; set; }
-        public System.DateTime sent_date { get; set; }
-    
-        public virtual user user { get; set; }
+        public int config_type { get; set; }
+        public int version { get; set; }
+        public string config { get; set; }
     }
 }

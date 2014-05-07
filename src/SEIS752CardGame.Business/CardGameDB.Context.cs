@@ -30,5 +30,6 @@ namespace SEIS752CardGame.Business
         public DbSet<poker_table> poker_table { get; set; }
         public DbSet<user> users { get; set; }
         public DbSet<user_pwd_reset> user_pwd_reset { get; set; }
+        public DbSet<configuration> configurations { get; set; }
     }
 }

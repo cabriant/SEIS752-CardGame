@@ -34,19 +34,18 @@ add constraint user_disp_name_constraint unique (display_name);
 -- "Password reset" table
 create table user_pwd_reset
 (
+	request_id varchar(50) not null,
 	user_id varchar(50) not null,
 	verification_code varchar(50) not null,
 	verification_token varchar(50),
 	is_code_valid bit not null default 1,
 	is_token_valid bit not null default 0,
 	code_sent_to varchar(255) not null,
-	sent_date timestamp not null default now(),
-	code_validation_date timestamp,
-	token_validation_date timestamp
+	sent_date timestamp not null default now()
 );
 
 alter table user_pwd_reset
-add primary key (user_id, verification_code, sent_date);
+add primary key (request_id);
 
 alter table user_pwd_reset
 add constraint fk_user_pwd_reset_user_id foreign key (user_id) references user(user_id);
@@ -119,3 +118,14 @@ add constraint fk_player_game_user_id foreign key (user_id) references user(user
 
 alter table player_game
 add constraint fk_player_game_game_id foreign key (game_id) references game(game_id);
+
+-- "Configuration" table
+create table configuration
+(
+	config_type int not null,
+	version int not null,
+	config varchar(1000)
+);
+
+alter table configuration
+add primary key (config_type, version);

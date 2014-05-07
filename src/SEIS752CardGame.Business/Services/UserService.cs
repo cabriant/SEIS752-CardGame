@@ -143,7 +143,7 @@ namespace SEIS752CardGame.Business.Services
 			return (user != null ? user.account_value : 0);
 		}
 
-		public void CreateAndSendResetCode(string email)
+		public string CreateResetCode(string email, out string phoneNumber)
 		{
 			var context = Utilities.Database.GetContext();
 			var user = (from u in context.users
@@ -151,7 +151,10 @@ namespace SEIS752CardGame.Business.Services
 						select u).SingleOrDefault();
 
 			if (user == null || string.IsNullOrEmpty(user.phone_number))
-				return;
+			{
+				phoneNumber = null;
+				return null;
+			}
 
 			var codesToInvalidate = (from c in context.user_pwd_reset
 									where c.user_id == user.user_id
@@ -165,14 +168,18 @@ namespace SEIS752CardGame.Business.Services
 				codeToInvalidate.is_token_valid = false;
 			}
 
-			var code = Guid.NewGuid().ToString("N").ToUpper().Substring(0, 6);
+			var requestId = Guid.NewGuid().ToString("N");
+			var code = requestId.ToUpper().Substring(0, 6);
 
 			var pwdResetRequest = new user_pwd_reset()
 			{
+				request_id = requestId,
 				user_id = user.user_id,
 				code_sent_to = user.phone_number,
 				verification_code = code,
+				verification_token = null,
 				is_code_valid = true,
+				is_token_valid = false,
 				sent_date = DateTime.Now
 			};
 
@@ -189,11 +196,10 @@ namespace SEIS752CardGame.Business.Services
 				throw;
 			}
 
-			if (!success)
-				return;
-			
-			// Send the code to the user's phone number
+			phoneNumber = (!string.IsNullOrEmpty(user.phone_number) ? user.phone_number : null);
 
+			// Return code to send to the user's phone number
+			return (success ? code : null);
 		}
 
 		public string ValidateCodeAndCreateToken(string email, string code)
@@ -224,7 +230,6 @@ namespace SEIS752CardGame.Business.Services
 			var token = Guid.NewGuid().ToString("N").ToUpper();
 
 			passwordResetRequest.is_code_valid = false;
-			passwordResetRequest.code_validation_date = DateTime.Now;
 			passwordResetRequest.verification_token = token;
 			passwordResetRequest.is_token_valid = true;
 
@@ -264,22 +269,20 @@ namespace SEIS752CardGame.Business.Services
 			if (passwordResetRequest.verification_token != token.Trim().ToUpper())
 				return false;
 
-			passwordResetRequest.token_validation_date = DateTime.Now;
 			passwordResetRequest.is_token_valid = false;
 
 			user.user_pwd = newPassword;
 
-			var success = false;
 			try
 			{
-				success = (1 == context.SaveChanges());
+				context.SaveChanges();
 			}
 			catch (Exception)
 			{
 				throw;
 			}
 
-			return success;
+			return true;
 		}
 	}
 }

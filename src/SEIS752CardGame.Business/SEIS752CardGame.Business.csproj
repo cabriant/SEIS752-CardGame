@@ -71,6 +71,9 @@
     <Reference Include="MySql.Data.Entity.EF6, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.ConnectorNET.Entity.6.8.3.2\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -96,10 +99,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="configuration.cs">
+      <DependentUpon>CardGameDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EncryptionConfig.cs" />
     <Compile Include="Models\TableModel.cs" />
+    <Compile Include="Models\TwilioConfig.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="player_game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
@@ -108,6 +116,8 @@
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\ITableService.cs" />
     <Compile Include="Services\TableService.cs" />
     <Compile Include="Services\IUserService.cs" />
@@ -119,6 +129,7 @@
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Database.cs" />
+    <Compile Include="Utilities\SecurityHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

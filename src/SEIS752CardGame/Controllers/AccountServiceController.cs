@@ -7,6 +7,7 @@ using PhoneNumbers;
 using SEIS752CardGame.Business.Models;
 using SEIS752CardGame.Business.Services;
 using SEIS752CardGame.Models.Account;
+using Twilio;
 
 namespace SEIS752CardGame.Controllers
 {
@@ -66,10 +67,21 @@ namespace SEIS752CardGame.Controllers
 		public ForgotResponse Forgot([FromBody] ForgotModel model)
 		{
 			var errors = new List<string>();
+			string code = null;
+			string phoneNumber = null;
 			if (!string.IsNullOrEmpty(model.Email))
-				UserService.Instance.CreateAndSendResetCode(model.Email);
+				code = UserService.Instance.CreateResetCode(model.Email, out phoneNumber);
 			else
 				errors.Add("Please enter an email address.");
+
+			if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(phoneNumber))
+			{
+				// Send the code
+				var twilioConfig = ConfigurationService.Instance.GetTwilioConfiguration();
+
+				var twilioClient = new TwilioRestClient(twilioConfig.AccountSid, twilioConfig.AuthToken);
+				var message = twilioClient.SendSmsMessage(twilioConfig.PhoneNumber, phoneNumber, "Card Game: Your password reset code is " + code);
+			}
 
 			// Just tell them we sent a code, even if we didn't (for security reasons)
 			return new ForgotResponse { Success = !errors.Any(), Errors = errors };

@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="seis752cardgameModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="seis752cardgameModelStoreContainer">
+          <EntitySet Name="configuration" EntityType="seis752cardgameModel.Store.configuration" store:Type="Tables" Schema="seis752cardgame" />
           <EntitySet Name="game" EntityType="seis752cardgameModel.Store.game" store:Type="Tables" Schema="seis752cardgame" />
           <EntitySet Name="player_game" EntityType="seis752cardgameModel.Store.player_game" store:Type="Tables" Schema="seis752cardgame" />
           <EntitySet Name="player_table" EntityType="seis752cardgameModel.Store.player_table" store:Type="Tables" Schema="seis752cardgame" />
@@ -33,6 +34,15 @@
             <End Role="user_pwd_reset" EntitySet="user_pwd_reset" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="configuration">
+          <Key>
+            <PropertyRef Name="config_type" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Name="config_type" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" Nullable="false" />
+          <Property Name="config" Type="varchar" />
+        </EntityType>
         <EntityType Name="game">
           <Key>
             <PropertyRef Name="game_id" />
@@ -98,10 +108,9 @@
         </EntityType>
         <EntityType Name="user_pwd_reset">
           <Key>
-            <PropertyRef Name="user_id" />
-            <PropertyRef Name="verification_code" />
-            <PropertyRef Name="sent_date" />
+            <PropertyRef Name="request_id" />
           </Key>
+          <Property Name="request_id" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="verification_code" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="verification_token" Type="varchar" MaxLength="50" />
@@ -109,8 +118,6 @@
           <Property Name="is_token_valid" Type="bit" Nullable="false" />
           <Property Name="code_sent_to" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="sent_date" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="code_validation_date" Type="timestamp" />
-          <Property Name="token_validation_date" Type="timestamp" />
         </EntityType>
         <Association Name="fk_player_game_game_id">
           <End Role="game" Type="seis752cardgameModel.Store.game" Multiplicity="1" />
@@ -198,6 +205,7 @@
             <End Role="poker_table" EntitySet="poker_table" />
             <End Role="user" EntitySet="users" />
           </AssociationSet>
+          <EntitySet Name="configurations" EntityType="seis752cardgameModel.configuration" />
         </EntityContainer>
         <EntityType Name="game">
           <Key>
@@ -263,19 +271,16 @@
         </EntityType>
         <EntityType Name="user_pwd_reset">
           <Key>
-            <PropertyRef Name="user_id" />
-            <PropertyRef Name="verification_code" />
-            <PropertyRef Name="sent_date" />
+            <PropertyRef Name="request_id" />
           </Key>
+          <Property Type="String" Name="request_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="verification_code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="verification_token" MaxLength="50" FixedLength="false" Unicode="false" Nullable="true" />
+          <Property Type="String" Name="verification_token" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="is_code_valid" Nullable="false" />
           <Property Type="Boolean" Name="is_token_valid" Nullable="false" />
           <Property Type="String" Name="code_sent_to" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="sent_date" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="DateTime" Name="code_validation_date" Nullable="true" />
-          <Property Type="DateTime" Name="token_validation_date" Nullable="true" />
           <NavigationProperty Name="user" Relationship="seis752cardgameModel.fk_user_pwd_reset_user_id" FromRole="user_pwd_reset" ToRole="user" />
         </EntityType>
         <Association Name="fk_player_game_game_id">
@@ -318,6 +323,15 @@
           <End Type="seis752cardgameModel.poker_table" Role="poker_table" Multiplicity="*" />
           <End Type="seis752cardgameModel.user" Role="user" Multiplicity="*" />
         </Association>
+        <EntityType Name="configuration">
+          <Key>
+            <PropertyRef Name="config_type" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Type="Int32" Name="config_type" Nullable="false" />
+          <Property Type="Int32" Name="version" Nullable="false" />
+          <Property Type="String" Name="config" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -385,8 +399,6 @@
           <EntitySetMapping Name="user_pwd_reset">
             <EntityTypeMapping TypeName="seis752cardgameModel.user_pwd_reset">
               <MappingFragment StoreEntitySet="user_pwd_reset">
-                <ScalarProperty Name="token_validation_date" ColumnName="token_validation_date" />
-                <ScalarProperty Name="code_validation_date" ColumnName="code_validation_date" />
                 <ScalarProperty Name="sent_date" ColumnName="sent_date" />
                 <ScalarProperty Name="code_sent_to" ColumnName="code_sent_to" />
                 <ScalarProperty Name="is_token_valid" ColumnName="is_token_valid" />
@@ -394,6 +406,7 @@
                 <ScalarProperty Name="verification_token" ColumnName="verification_token" />
                 <ScalarProperty Name="verification_code" ColumnName="verification_code" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="request_id" ColumnName="request_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -405,6 +418,15 @@
               <ScalarProperty Name="table_id" ColumnName="table_id" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="configurations">
+            <EntityTypeMapping TypeName="seis752cardgameModel.configuration">
+              <MappingFragment StoreEntitySet="configuration">
+                <ScalarProperty Name="config" ColumnName="config" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="config_type" ColumnName="config_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
