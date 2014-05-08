@@ -1,0 +1,41 @@
+﻿@model SEIS752CardGame.Models.OauthErrorModel
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Card Game</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/Content/bootstrap.css" rel="stylesheet" />
+        <link href="/Content/animations.css" rel="stylesheet" />
+        
+        <link rel="stylesheet" type="text/css" href="/Content/css/Site.css" />
+    </head>
+	<body>
+		<div>
+			@foreach (var error in Model.Errors)
+			{
+				<div>@error</div>
+			}
+		</div>
+		<div class="main-content">
+			<a href="/">Login</a>
+		</div>
+
+		<div id="footer" data-ng-controller="NavigationController">
+			<div class="navbar navbar-fixed-bottom">
+				<div class="navbar-inner footer">
+					<div class="container">
+						<footer>
+							<div class="row">
+								<div class="col-md-12">
+									Copyright &copy; 2014 Element Zero Solutions, LLC
+								</div>
+							</div>
+						</footer>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

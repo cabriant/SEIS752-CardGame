@@ -70,9 +70,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Oauth2Login">
-      <HintPath>..\packages\Oauth2Login.1.0.7\lib\Oauth2Login.dll</HintPath>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -258,6 +255,7 @@
     <Compile Include="Models\Blackjack\BlackjackTableResponse.cs" />
     <Compile Include="Models\Login\LoginModel.cs" />
     <Compile Include="Models\Login\AuthResponse.cs" />
+    <Compile Include="Models\OauthErrorModel.cs" />
     <Compile Include="Models\User\AccessResponse.cs" />
     <Compile Include="Models\User\DisplayUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -314,6 +312,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Content\images\cards\COPYING" />
+    <Content Include="Views\OAuth\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -326,7 +325,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\OAuth\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SEIS752CardGame.Business\SEIS752CardGame.Business.csproj">

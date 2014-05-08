@@ -17,6 +17,11 @@ namespace SEIS752CardGame.App_Start
                 "OAuth/Auth",
                 new { controller = "OAuth", action = "Auth" });
 
+	        routes.MapRoute(
+		        "OAuthErrorRoute",
+		        "OAuth/Error",
+		        new {controller = "OAuth", action = "Error"});
+
             // Always pass all url requests to main controller's index action
             routes.MapRoute(
                 "MainRoute",

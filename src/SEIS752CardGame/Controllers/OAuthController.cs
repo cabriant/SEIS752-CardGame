@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Oauth2Login;
-using Oauth2Login.Client;
+using SEIS752CardGame.Models;
 using SEIS752CardGame.Models.Login;
 using SEIS752CardGame.Utilities;
 using SEIS752CardGame.Business.Models;
@@ -20,36 +19,26 @@ namespace SEIS752CardGame.Controllers
             Google
         }
 
-        private static Oauth2LoginContext _context;
-
         [HttpGet]
         public ActionResult Login(OAuthType type)
         {
             if (IsUserAuthenticated())
                 return RedirectToAction("Index", "Main");
 
-            var url = string.Empty;
-            AbstractClientProvider client;
+	        var redirectUrl = string.Empty;
 
             switch (type)
             {
                 case OAuthType.Google:
-                    client = Oauth2LoginFactory.CreateClient<GoogleClinet>("Google");
+		            var googleOauthConfig = ConfigurationService.Instance.GetGoogleOauthConfig();
+
+					redirectUrl = GoogleOauthService.Instance.CreateInitialAuthUrl(googleOauthConfig.ClientId, googleOauthConfig.CallbackUrl, "1", googleOauthConfig.Scope);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("type");
             }
 
-            if (client != null)
-            {
-                _context = Oauth2LoginContext.Create(client);
-                url = _context.BeginAuth();
-            }
-
-            if (!string.IsNullOrEmpty(url))
-                return Redirect(url);
-
-            return Redirect("/");
+	        return Redirect(!string.IsNullOrEmpty(redirectUrl) ? redirectUrl : "/");
         }
 
         [HttpGet]
@@ -58,66 +47,76 @@ namespace SEIS752CardGame.Controllers
             if (IsUserAuthenticated())
                 return RedirectToAction("Index", "Main");
 
-            try
-            {
-                var token = _context.Token;
-                Dictionary<String, String> dictionary = _context.Client.Profile;
+			var errors = new List<string>();
+	        try
+	        {
+				var googleOauthConfig = ConfigurationService.Instance.GetGoogleOauthConfig();
+				var response = GoogleOauthService.Instance.RetrieveAccessToken(code, googleOauthConfig.ClientId,
+					googleOauthConfig.ClientSecret, googleOauthConfig.CallbackUrl);
+				if (response == null)
+					throw new Exception("Unable to authenticate with Google. Please try again later.");
 
-                /*
-                var output = "<div>token: " + token + "</div>";
-                foreach (var pair in dictionary)
-                {
-                    var key = pair.Key;
-                    var value = pair.Value;
-                    output += "<div> Key: " + key + " Value: " + value + "</div>";
-                }
-                */
+				var profile = GoogleOauthService.Instance.RetrieveUserProfile(response.access_token);
+				if (profile == null)
+					throw new Exception("Unable to authenticate with Google. Please try again later.");
 
-                var response = new AuthResponse();
+				var oauthToken = response.access_token;
+				var oauthUserId = profile.id;
+				var userEmail = profile.email;
+				var userName = profile.given_name;
+				var verifiedEmail = profile.verified_email;
 
+				if (!verifiedEmail)
+				{
+					throw new Exception("Your email address must be verified by Google");
+				}
 
-                var errors = new List<string>();
+				// try authenticate
+				var user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId);
+				if (user == null)
+				{
+					// Couldn't find the user, so create an account
+					if (UserService.Instance.CheckEmailInUse(userEmail))
+					{
+						throw new Exception("Email address is already in use, please use a different account to log in");
+					}
 
-                if(!string.Equals(dictionary["verified_email"],"true"))
-                    response.Error="Your email address must be verified by Google";
+					var newUser = new UserModel(UserModel.AccountType.Google, UserModel.UserType.Standard)
+					{
+						OAuthToken = oauthToken,
+						Email = userEmail,
+						OAuthId = oauthUserId,
+						DisplayName = userName
+					};
 
-                var success = false;
-                if (!errors.Any())
-                {
+					var success = UserService.Instance.CreateUser(newUser);
+					if (success)
+					{
+						user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId);
+					}
+				}
 
-                    //try authenticate
+				if (user == null)
+					throw new Exception("Unable to authenticate with Google. Please try again later.");
 
-                    var user = UserService.Instance.AuthenticateOAuthUser(dictionary["email"], _context.Token);
-                    response = new AuthResponse {Authenticated = (user != null)};
-                    if (user != null)
-                    {
-                        SessionDataPersistor.Instance.StoreInSession(SessionDataPersistor.SessionKey.UserKey, user);
-                        response.User = new DisplayUserModel() {DisplayName = user.DisplayName, Id = user.Id};
-                    }
-                    else
-                    {
-                        //if !authenticated then try to create
-                        var newUser = new UserModel(UserModel.AccountType.Google, UserModel.UserType.Standard)
-                        {
-                            OAuthToken = _context.Token,
-                            Email = dictionary["email"],
-                            OAuthId = dictionary["id"],
-                            //Password = model.Password,
-                            DisplayName = dictionary["given_name"],
-                            //PhoneNumber = model.PhoneNumber
-                        };
+				SessionDataPersistor.Instance.StoreInSession(SessionDataPersistor.SessionKey.UserKey, user);
+				return Redirect("/");
+	        }
+	        catch (Exception e)
+	        {
+				errors.Add(e.Message);
+	        }
+			
+			TempData["OauthErrors"] = errors;
 
-                        success = UserService.Instance.CreateUser(newUser);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-
-            return RedirectToAction("Index", "Main");
+	        return RedirectToAction("Error");
         }
+
+	    public ActionResult Error()
+	    {
+		    var errors = (List<string>)TempData["OauthErrors"];
+
+		    return View(new OauthErrorModel { Errors = errors });
+	    }
     }
 }

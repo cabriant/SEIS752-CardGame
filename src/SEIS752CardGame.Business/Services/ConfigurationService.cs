@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SEIS752CardGame.Business.Models;
 using SEIS752CardGame.Business.Utilities;
+using System;
+using System.Linq;
 
 namespace SEIS752CardGame.Business.Services
 {
@@ -15,16 +12,19 @@ namespace SEIS752CardGame.Business.Services
 
 		private const int TWILIO_CONFIGURATION_TYPE = 0;
 		private const int ENCRYPTION_CONFIGURATION_TYPE = 1;
+		private const int GOOGLE_OAUTH_CONFIGURATION_TYPE = 2;
 
 		private DateTime _expires;
 
 		private TwilioConfig _twilioConfig;
 		private EncryptionConfig _encryptionConfig;
+		private GoogleOauthConfig _googleOauthConfig;
 
 		public ConfigurationService()
 		{
 			_twilioConfig = new TwilioConfig();
 			_encryptionConfig = new EncryptionConfig();
+			_googleOauthConfig = new GoogleOauthConfig();
 
 			ReloadAllConfigs();
 		}
@@ -35,6 +35,7 @@ namespace SEIS752CardGame.Business.Services
 		{
 			ReloadTwilioConfig();
 			ReloadEncryptionConfig();
+			ReloadGoogleOauthConfig();
 
 			_expires = DateTime.Now.AddMinutes(5);
 		}
@@ -73,9 +74,24 @@ namespace SEIS752CardGame.Business.Services
 			}
 		}
 
-		#endregion
+		private void ReloadGoogleOauthConfig()
+		{
+			lock (this._googleOauthConfig)
+			{
+				var context = Database.GetContext();
+				var config = (from c in context.configurations
+							  where c.config_type == GOOGLE_OAUTH_CONFIGURATION_TYPE
+							  orderby c.version descending
+							  select c).FirstOrDefault();
 
-		#region NAS Config
+				if (config == null)
+					throw new Exception("No Config Exists!");
+
+				this._googleOauthConfig = JsonConvert.DeserializeObject<GoogleOauthConfig>(config.config, JsonSettings);
+			}
+		}
+
+		#endregion
 
 		public TwilioConfig GetTwilioConfiguration()
 		{
@@ -87,10 +103,6 @@ namespace SEIS752CardGame.Business.Services
 			return this._twilioConfig;
 		}
 
-		#endregion
-
-		#region File Manager Config
-
 		public EncryptionConfig GetEncryptionConfig()
 		{
 			if (_expires <= DateTime.Now)
@@ -101,6 +113,14 @@ namespace SEIS752CardGame.Business.Services
 			return this._encryptionConfig;
 		}
 
-		#endregion
+		public GoogleOauthConfig GetGoogleOauthConfig()
+		{
+			if (_expires <= DateTime.Now)
+			{
+				ReloadAllConfigs();
+			}
+
+			return this._googleOauthConfig;
+		}
 	}
 }

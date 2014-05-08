@@ -11,7 +11,7 @@ create table user
 (
 	user_id varchar(50),
 	account_type int not null,
-	oauth_user_id varchar(50),
+	oauth_user_id varchar(255),
 	email varchar(255) not null,
 	user_pwd varchar(255),
 	display_name varchar(30) not null,

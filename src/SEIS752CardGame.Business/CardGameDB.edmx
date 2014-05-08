@@ -96,7 +96,7 @@
           </Key>
           <Property Name="user_id" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="account_type" Type="int" Nullable="false" />
-          <Property Name="oauth_user_id" Type="varchar" MaxLength="50" />
+          <Property Name="oauth_user_id" Type="varchar" MaxLength="255" />
           <Property Name="email" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="user_pwd" Type="varchar" MaxLength="255" />
           <Property Name="display_name" Type="varchar" Nullable="false" MaxLength="30" />
@@ -184,6 +184,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="seis752cardgameModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="CardGameDbEntities" p1:LazyLoadingEnabled="true" >
+          <EntitySet Name="configurations" EntityType="seis752cardgameModel.configuration" />
           <EntitySet Name="games" EntityType="seis752cardgameModel.game" />
           <EntitySet Name="player_game" EntityType="seis752cardgameModel.player_game" />
           <EntitySet Name="poker_table" EntityType="seis752cardgameModel.poker_table" />
@@ -205,8 +206,16 @@
             <End Role="poker_table" EntitySet="poker_table" />
             <End Role="user" EntitySet="users" />
           </AssociationSet>
-          <EntitySet Name="configurations" EntityType="seis752cardgameModel.configuration" />
         </EntityContainer>
+        <EntityType Name="configuration">
+          <Key>
+            <PropertyRef Name="config_type" />
+            <PropertyRef Name="version" />
+          </Key>
+          <Property Type="Int32" Name="config_type" Nullable="false" />
+          <Property Type="Int32" Name="version" Nullable="false" />
+          <Property Type="String" Name="config" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="game">
           <Key>
             <PropertyRef Name="game_id" />
@@ -256,7 +265,7 @@
           </Key>
           <Property Type="String" Name="user_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="account_type" Nullable="false" />
-          <Property Type="String" Name="oauth_user_id" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="oauth_user_id" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="email" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="user_pwd" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="display_name" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -323,21 +332,21 @@
           <End Type="seis752cardgameModel.poker_table" Role="poker_table" Multiplicity="*" />
           <End Type="seis752cardgameModel.user" Role="user" Multiplicity="*" />
         </Association>
-        <EntityType Name="configuration">
-          <Key>
-            <PropertyRef Name="config_type" />
-            <PropertyRef Name="version" />
-          </Key>
-          <Property Type="Int32" Name="config_type" Nullable="false" />
-          <Property Type="Int32" Name="version" Nullable="false" />
-          <Property Type="String" Name="config" MaxLength="1000" FixedLength="false" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="seis752cardgameModelStoreContainer" CdmEntityContainer="CardGameDbEntities" >
+          <EntitySetMapping Name="configurations">
+            <EntityTypeMapping TypeName="seis752cardgameModel.configuration">
+              <MappingFragment StoreEntitySet="configuration">
+                <ScalarProperty Name="config" ColumnName="config" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="config_type" ColumnName="config_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="games">
             <EntityTypeMapping TypeName="seis752cardgameModel.game">
               <MappingFragment StoreEntitySet="game">
@@ -418,15 +427,6 @@
               <ScalarProperty Name="table_id" ColumnName="table_id" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="configurations">
-            <EntityTypeMapping TypeName="seis752cardgameModel.configuration">
-              <MappingFragment StoreEntitySet="configuration">
-                <ScalarProperty Name="config" ColumnName="config" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="config_type" ColumnName="config_type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

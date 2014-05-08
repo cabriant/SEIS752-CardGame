@@ -29,12 +29,12 @@ namespace SEIS752CardGame.Business.Services
 			return (user == null ? null : new UserModel(user));
 		}
 
-        public UserModel AuthenticateOAuthUser(string email, string oauthAuthToken)
+        public UserModel AuthenticateOAuthUser(string email, string oauthUserId)
         {
             var context = Utilities.Database.GetContext();
             var user = (from aUser in context.users
                         where aUser.email == email
-                        && aUser.oauth_auth_token == oauthAuthToken
+                        && aUser.oauth_user_id == oauthUserId
                         select aUser).FirstOrDefault();
 
             return (user == null ? null : new UserModel(user));

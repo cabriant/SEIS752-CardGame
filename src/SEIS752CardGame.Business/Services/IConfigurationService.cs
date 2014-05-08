@@ -6,5 +6,6 @@ namespace SEIS752CardGame.Business.Services
 	{
 		TwilioConfig GetTwilioConfiguration();
 		EncryptionConfig GetEncryptionConfig();
+		GoogleOauthConfig GetGoogleOauthConfig();
 	}
 }

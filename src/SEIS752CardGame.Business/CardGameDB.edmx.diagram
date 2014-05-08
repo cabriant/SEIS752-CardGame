@@ -5,16 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="82da21ff936b49b28483945de1095673" Name="Diagram1" >
-        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="1.3130326090906899" PointY="16.872065224159538" />
-        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="5.3736072971362656" PointY="4.028599547235574" />
-        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="3.0281984168236136" PointY="22.839304472710612" />
-        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="2.6448817582078661" PointY="9.313059557840722" />
-        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="8.1763516683952666" PointY="25.253082540469748" />
+        <EntityTypeShape EntityType="seis752cardgameModel.configuration" Width="1.5" PointX="2.0454899622339244" PointY="13.935768074326109" />
+        <EntityTypeShape EntityType="seis752cardgameModel.game" Width="1.5" PointX="1.6871594049442371" PointY="2.5441368830130142" />
+        <EntityTypeShape EntityType="seis752cardgameModel.player_game" Width="1.5" PointX="11.167385318860125" PointY="10.149797950941045" />
+        <EntityTypeShape EntityType="seis752cardgameModel.poker_table" Width="1.5" PointX="1.5381970375488496" PointY="23.795238789075633" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user" Width="1.5" PointX="1.2383702309980849" PointY="23.057568084009723" />
+        <EntityTypeShape EntityType="seis752cardgameModel.user_pwd_reset" Width="1.5" PointX="8.0059641227153886" PointY="3.8796418029254496" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_game_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_player_game_user_id" />
         <AssociationConnector Association="seis752cardgameModel.fk_user_pwd_reset_user_id" />
         <AssociationConnector Association="seis752cardgameModel.player_table" />
-        <EntityTypeShape EntityType="seis752cardgameModel.configuration" Width="1.5" PointX="6.625" PointY="8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
