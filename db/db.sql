@@ -59,7 +59,7 @@ create table poker_table
 	ante int,
 	max_raise int,
 	max_players int not null,
-	table_deck varchar(4000)
+	table_deck varchar(8000)
 );
 
 alter table poker_table
@@ -86,14 +86,17 @@ create table game
 (
 	game_id varchar(50),
 	table_id varchar(50) not null,
-	game_state int not null,
-	house_cards varchar(500),
-	table_pot_value int not null,
-	current_round_bet int not null,
-	req_player_action varchar(1000),
-	last_action varchar(255),
-	last_raise_value int not null
+	completed bit not null default 0,
+	game_info varchar(8000)
 );
+
+-- game_state int not null,
+-- house_cards varchar(500),
+-- table_pot_value int not null,
+-- current_round_bet int not null,
+-- req_player_action varchar(2000),
+-- last_action varchar(255),
+-- last_raise_value int not null
 
 alter table game
 add primary key (game_id);
@@ -105,9 +108,9 @@ create table player_game
 	game_id varchar(50),
 	ante_bet int,
 	amt_won_lost int,
-	player_hand varchar(500),
 	has_anted_bet bit not null default 0,
-	player_actions varchar(1000)
+	player_hand varchar(500),
+	player_actions varchar(2000)
 );
 
 alter table player_game

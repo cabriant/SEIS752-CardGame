@@ -1,5 +1,73 @@
 ﻿<div class="view">
-    <div class="container">
-        Blackjack table
-    </div>
+	<div class="container blackjack">
+		<div data-ng-show="game.currentStage == 0" class="row">
+			<!-- Current player betting -->
+			<div class="col-md-4 col-md-offset-4 bet-container">
+				<div class="bet-inner-content">
+					<div class="bold text-center">
+						Place your bet!
+					</div>
+					<form name="blackjackBetForm" novalidate>
+						<div ng-show="bet.betErrors.length">
+							<div class="alert alert-danger">
+								<div>Please correct the following error(s):</div>
+								<ul>
+									<li ng-repeat="error in bet.betErrors">
+										{{ error }}
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="bet">Bet</label>
+								<input id="bet" type="number" name="bet" class="form-control" data-ng-model="bet.betValue" required min="0" step="10" data-ng-change="betChanged()" placeholder="Your bet..." />
+							</div>
+							<div class="col-md-6">
+								<div>Bank:</div>
+								<div>${{ bank.newBalance }}</div>
+							</div>
+						</div>
+						<div class="text-center">
+							<a class="btn btn-danger" href="javascript:void(0)" data-ng-click="leaveTable()">Leave Table</a>&nbsp;&nbsp;
+							<a class="btn btn-primary" href="javascript:void(0)" data-ng-click="placeBet()">Place Bet</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div data-ng-show="game.currentStage > 0">
+			<!-- Waiting for other players bets -->
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 player-card-holder">
+					Dealer
+				</div>
+			</div>
+			<div>
+				<div class="player-grid-container row">
+					<div class="col-md-3" ng-repeat="player in game.players">
+						<div class="player-container">
+							<div class="card-container">
+								<span data-ng-repeat="hand in player.hands">
+									<span data-ng-repeat="card in hand.cards">
+										<span class="card {{ card }}" style="width: 67px; height: 97px; float: left; z-index: 1; position: absolute; left: 0"></span>
+									</span>
+								</span>
+							</div>
+							<div class="player-card-holder">
+								<div class="text-center bold">
+									{{ player.displayName }}
+								</div>
+								<div class="table-info text-center">
+									<div>
+										Bet: {{ player.betValue }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -52,11 +52,13 @@
 					isAuthenticated: true,
 					profile: response.user
 				};
+				broadcastAuth('userAuthenticated');
 			} else {
 				factory.user = {
 					isAuthenticated: false,
 					profile: null
 				};
+				broadcastAuth('userDeauthenticated');
 			}
         }
 
@@ -80,6 +82,10 @@
 
             return deferred.promise;
         }
+
+		function broadcastAuth(authDeauth) {
+			$rootScope.$broadcast(authDeauth, null);
+		}
 
         return factory;
     };

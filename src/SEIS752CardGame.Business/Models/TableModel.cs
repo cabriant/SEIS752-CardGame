@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SEIS752CardGame.Business.Models
 {
 	public class TableModel
 	{
+		private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects };
+
 		public enum PokerGameType
 		{
 			Blackjack,
@@ -22,7 +25,7 @@ namespace SEIS752CardGame.Business.Models
 			Ante = (table.ante.HasValue ? table.ante.Value : -1);
 			MaxRaise = (table.max_raise.HasValue ? table.max_raise.Value : -1);
 			MaxPlayers = table.max_players;
-			Deck = table.table_deck;
+			JsonDeck = table.table_deck;
 			NumOfPlayers = table.users.Count;
 		}
 
@@ -37,7 +40,24 @@ namespace SEIS752CardGame.Business.Models
 		public int? Ante { get; set; }
 		public int? MaxRaise { get; set; }
 		public int MaxPlayers { get; set; }
-		public string Deck { get; set; }
 		public int NumOfPlayers { get; set; }
+		public string JsonDeck { get; set; }
+
+		private DeckModel _deck = null;
+
+		public DeckModel Deck
+		{
+			get
+			{
+				if (JsonDeck == null)
+					return null;
+				return (_deck ?? (_deck = JsonConvert.DeserializeObject<DeckModel>(JsonDeck, JsonSettings)));
+			}
+			set
+			{
+				_deck = value;
+				JsonDeck = JsonConvert.SerializeObject(_deck, JsonSettings);
+			}
+		}
 	}
 }

@@ -29,7 +29,7 @@ namespace SEIS752CardGame.Business.Services
 			return (user == null ? null : new UserModel(user));
 		}
 
-        public UserModel AuthenticateOAuthUser(string email, string oauthUserId)
+        public UserModel AuthenticateOAuthUser(string email, string oauthUserId, string oauthAccessToken)
         {
             var context = Utilities.Database.GetContext();
             var user = (from aUser in context.users
@@ -37,7 +37,13 @@ namespace SEIS752CardGame.Business.Services
                         && aUser.oauth_user_id == oauthUserId
                         select aUser).FirstOrDefault();
 
-            return (user == null ? null : new UserModel(user));
+	        if (user == null) 
+				return null;
+
+	        user.oauth_auth_token = oauthAccessToken;
+	        context.SaveChanges();
+
+	        return new UserModel(user);
         }
 
 		public bool CreateUser(UserModel model)
@@ -159,6 +165,7 @@ namespace SEIS752CardGame.Business.Services
 			var context = Utilities.Database.GetContext();
 			var user = (from u in context.users
 						where u.email == email
+						&& u.account_type == 0
 						select u).SingleOrDefault();
 
 			if (user == null || string.IsNullOrEmpty(user.phone_number))

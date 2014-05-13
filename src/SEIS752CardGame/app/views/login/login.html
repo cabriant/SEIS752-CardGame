@@ -1,6 +1,6 @@
 ﻿<div class="view">
     <div class="container">
-        <div class="login-dialog">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 login-dialog">
             <div class="login-content">
                 <form name="loginForm" novalidate>
                     <div class="login">
@@ -33,18 +33,21 @@
                                 Error: {{ errorMessage }}
                             </div>
                         </div>
-                        <div class="account-options">
-                            <a href="/account/create" title="Create an Account">Create an Account</a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="/account/forgot">Forgot my Password</a>
-                        </div>
-                        <div class="horizontal-divider">
-                            <span class="divider left"></span>
-                            <span class="divider-word">OR</span>
-                            <span class="divider right"></span>
-                        </div>
+	                    <div class="account-options row">
+		                    <div class="col-sm-6 right">
+			                    <a href="/account/create" title="Create an Account">Create an Account</a>
+		                    </div>
+		                    <div class="col-sm-6 left">
+			                    <a href="/account/forgot">Forgot my Password</a>
+		                    </div>
+	                    </div>
+	                    <div class="horizontal-divider row">
+		                    <div class="col-xs-4 col-sm-5 divider"></div>
+		                    <div class="col-xs-4 col-sm-2 divider-word">OR</div>
+							<div class="col-xs-4 col-sm-5 divider"></div>
+	                    </div>
 	                    <div class="oauth-collection">
-		                    <a href="/oauth/login/google" target="_self"><img src="/Content/images/social_google_box.png" title="Google" alt="Google" /> Sign In with Google</a>
+		                    <a href="javascript:void(0);" data-ng-click="googleOauth()" target="_self"><img src="/Content/images/social_google_box.png" title="Google" alt="Google" /> Sign In with Google</a>
                             
 		                    <!-- Icons provided by https://www.iconfinder.com/search/?q=iconset:yooicons_set01_socialbookmarks -->
 	                    </div>

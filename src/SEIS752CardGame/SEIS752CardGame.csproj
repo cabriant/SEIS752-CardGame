@@ -251,8 +251,14 @@
     <Compile Include="Models\Account\ForgotModel.cs" />
     <Compile Include="Models\Account\ForgotResponse.cs" />
     <Compile Include="Models\BaseApiResponse.cs" />
+    <Compile Include="Models\Blackjack\BlackjackGameModel.cs" />
     <Compile Include="Models\Blackjack\BlackjackTableCreateModel.cs" />
     <Compile Include="Models\Blackjack\BlackjackTableResponse.cs" />
+    <Compile Include="Models\Blackjack\JoinTableModel.cs" />
+    <Compile Include="Models\Blackjack\InitTableResponse.cs" />
+    <Compile Include="Models\Blackjack\TableActionResponse.cs" />
+    <Compile Include="Models\Blackjack\TableActionsModel.cs" />
+    <Compile Include="Models\DisplayGamePlayer.cs" />
     <Compile Include="Models\Login\LoginModel.cs" />
     <Compile Include="Models\Login\AuthResponse.cs" />
     <Compile Include="Models\OauthErrorModel.cs" />
@@ -313,6 +319,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Content\images\cards\COPYING" />
     <Content Include="Views\OAuth\Error.cshtml" />
+    <None Include="Properties\PublishProfiles\EZPublish.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

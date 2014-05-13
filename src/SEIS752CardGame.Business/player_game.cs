@@ -18,8 +18,8 @@ namespace SEIS752CardGame.Business
         public string game_id { get; set; }
         public Nullable<int> ante_bet { get; set; }
         public Nullable<int> amt_won_lost { get; set; }
-        public string player_hand { get; set; }
         public bool has_anted_bet { get; set; }
+        public string player_hand { get; set; }
         public string player_actions { get; set; }
     
         public virtual game game { get; set; }

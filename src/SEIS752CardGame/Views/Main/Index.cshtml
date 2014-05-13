@@ -12,14 +12,20 @@
         <base href="/" />
     </head>
     <body data-ng-cloak="">
-        <header class="navbar navbar-default navbar-fixed-top bottom-box-shadow" data-ng-controller="NavigationController" data-ng-class="{'hidden':hide()}">
+        <header class="navbar navbar-default navbar-fixed-top box-shadow" data-ng-controller="NavigationController" data-ng-class="{'hidden':hide()}">
             <nav class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#/">
-                        <span class="appTitle">{{ appTitle }}</span>
-                    </a>
-                </div>
-                <a href="javascript:void(0);" id="nav-login" data-ng-click="logout()" class="pull-right">Logout</a>
+	            <div class="navbar-header">
+		            <a class="navbar-brand" href="#/">
+			            <span class="appTitle">{{ appTitle }}</span>
+		            </a>
+					<div class="nav-container" data-collapse="isCollapsed">
+						<ul class="nav navbar-nav nav-pills">
+							<li data-ng-class="{'active':highlight('/blackjack')}"><a href="#/blackjack">Blackjack</a></li>
+						</ul>
+					</div>
+		            <a href="javascript:void(0);" id="nav-login" data-ng-click="logout()" class="pull-right">Logout</a>
+		            <a href="javascript:void(0);" id="user-link" class="pull-right">{{ displayName }}</a>
+	            </div>
             </nav>
         </header>
 
@@ -28,12 +34,12 @@
         </div>
 
         <div id="footer" data-ng-controller="NavigationController" data-ng-class="{'hidden':hide()}">
-            <div class="navbar navbar-fixed-bottom">
+            <div class="navbar navbar-fixed-bottom text-center box-shadow">
                 <div class="navbar-inner footer">
                     <div class="container">
                         <footer>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 footer-content">
                                     Copyright &copy; 2014 Element Zero Solutions, LLC
                                 </div>
                             </div>
@@ -42,8 +48,10 @@
                 </div>
             </div>
         </div>
+		
+		<!-- CSS Background: http://lea.verou.me/css3patterns/#carbon-fibre -->
 
-        <!-- 3rd party libraries -->
+	    <!-- 3rd party libraries -->
         <script src="/Scripts/angular/1.2.15/angular.min.js"></script>
         <script src="/Scripts/angular/1.2.15/angular-route.min.js"></script>
         <script src="/Scripts/angular/1.2.15/angular-animate.min.js"></script>

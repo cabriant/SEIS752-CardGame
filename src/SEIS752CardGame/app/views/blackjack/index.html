@@ -1,6 +1,6 @@
 ﻿<div class="view">
 	<div class="container">
-		<div class="text-center">
+		<div class="text-center white-text-shadow">
 			<h2>Blackjack</h2>
 		</div>
 		<div class="row">
@@ -10,11 +10,32 @@
 		</div>
 		<div class="table-grid-container row">
 			<div class="col-md-3" ng-repeat="table in tables">
-				<div>
-					{{ table.displayName }}
-				</div>
-				<div>
-					<a href="/blackjack/table/{{ table.id }}">Join Game</a>
+				<div class="table-container">
+					<div class="text-center bold">
+						{{ table.displayName }}
+					</div>
+					<div class="table-info text-center">
+						<div>
+							Ante: {{ table.ante }}
+						</div>
+						<div data-ng-hide="table.maxRaise <= 0">
+							Max Raise: {{ table.maxRaise }}
+						</div>
+						<div>
+							Max Players: {{ table.maxPlayers }}
+						</div>
+						<div>
+							<span data-ng-show="table.numOfPlayers == table.maxPlayers">
+								Table is Full
+							</span>
+							<span data-ng-hide="table.numOfPlayers >= table.maxPlayers">
+								Players at Table: {{ table.numOfPlayers }}
+							</span>
+						</div>
+					</div>
+					<div class="text-center">
+						<a href="javascript:void(0);" data-ng-click="joinTable(table.id)">Join Table</a>
+					</div>
 				</div>
 			</div>
 		</div>

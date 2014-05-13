@@ -20,10 +20,14 @@ namespace SEIS752CardGame.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login(OAuthType type)
+        public ActionResult Login(OAuthType type, string redirect)
         {
-            if (IsUserAuthenticated())
-                return RedirectToAction("Index", "Main");
+	        if (IsUserAuthenticated())
+	        {
+				if (!string.IsNullOrEmpty(redirect))
+					return Redirect("/" + redirect);
+				return RedirectToAction("Index", "Main");
+	        }
 
 	        var redirectUrl = string.Empty;
 
@@ -32,7 +36,7 @@ namespace SEIS752CardGame.Controllers
                 case OAuthType.Google:
 		            var googleOauthConfig = ConfigurationService.Instance.GetGoogleOauthConfig();
 
-					redirectUrl = GoogleOauthService.Instance.CreateInitialAuthUrl(googleOauthConfig.ClientId, googleOauthConfig.CallbackUrl, "1", googleOauthConfig.Scope);
+					redirectUrl = GoogleOauthService.Instance.CreateInitialAuthUrl(googleOauthConfig.ClientId, googleOauthConfig.CallbackUrl, (string.IsNullOrEmpty(redirect) ? "" : redirect), googleOauthConfig.Scope);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("type");
@@ -42,10 +46,21 @@ namespace SEIS752CardGame.Controllers
         }
 
         [HttpGet]
-        public ActionResult Auth(string state, string code)
+        public ActionResult Auth(string state, string code, string error)
         {
-            if (IsUserAuthenticated())
-                return RedirectToAction("Index", "Main");
+			if (IsUserAuthenticated())
+			{
+				if (!string.IsNullOrEmpty(state))
+					return Redirect("/" + state);
+				return RedirectToAction("Index", "Main");
+			}
+
+	        if (!string.IsNullOrEmpty(error) && error == "access_denied")
+			{
+				if (!string.IsNullOrEmpty(state))
+					return Redirect("/login/" + state);
+				return Redirect("/login");
+	        }
 
 			var errors = new List<string>();
 	        try
@@ -60,7 +75,7 @@ namespace SEIS752CardGame.Controllers
 				if (profile == null)
 					throw new Exception("Unable to authenticate with Google. Please try again later.");
 
-				var oauthToken = response.access_token;
+				var oauthAccessToken = response.access_token;
 				var oauthUserId = profile.id;
 				var userEmail = profile.email;
 				var userName = profile.given_name;
@@ -72,7 +87,7 @@ namespace SEIS752CardGame.Controllers
 				}
 
 				// try authenticate
-				var user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId);
+				var user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId, oauthAccessToken);
 				if (user == null)
 				{
 					// Couldn't find the user, so create an account
@@ -83,7 +98,7 @@ namespace SEIS752CardGame.Controllers
 
 					var newUser = new UserModel(UserModel.AccountType.Google, UserModel.UserType.Standard)
 					{
-						OAuthToken = oauthToken,
+						OAuthToken = oauthAccessToken,
 						Email = userEmail,
 						OAuthId = oauthUserId,
 						DisplayName = userName
@@ -92,7 +107,7 @@ namespace SEIS752CardGame.Controllers
 					var success = UserService.Instance.CreateUser(newUser);
 					if (success)
 					{
-						user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId);
+						user = UserService.Instance.AuthenticateOAuthUser(userEmail, oauthUserId, oauthAccessToken);
 					}
 				}
 
@@ -100,7 +115,7 @@ namespace SEIS752CardGame.Controllers
 					throw new Exception("Unable to authenticate with Google. Please try again later.");
 
 				SessionDataPersistor.Instance.StoreInSession(SessionDataPersistor.SessionKey.UserKey, user);
-				return Redirect("/");
+				return (!string.IsNullOrEmpty(state) ? Redirect("/" + state) : Redirect("/"));
 	        }
 	        catch (Exception e)
 	        {

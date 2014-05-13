@@ -16,7 +16,7 @@ namespace SEIS752CardGame.Business.Services
 
 		public string CreateInitialAuthUrl(string clientId, string redirectUri, string state, string scope)
 		{
-			var url = string.Format(GOOGLE_OAUTH_URL, clientId, HttpUtility.UrlEncode(redirectUri), state, scope);
+			var url = string.Format(GOOGLE_OAUTH_URL, clientId, HttpUtility.UrlEncode(redirectUri), HttpUtility.UrlEncode(state), scope);
 			return url;
 		}
 

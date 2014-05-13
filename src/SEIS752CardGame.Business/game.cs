@@ -21,13 +21,8 @@ namespace SEIS752CardGame.Business
     
         public string game_id { get; set; }
         public string table_id { get; set; }
-        public int game_state { get; set; }
-        public string house_cards { get; set; }
-        public int table_pot_value { get; set; }
-        public int current_round_bet { get; set; }
-        public string req_player_action { get; set; }
-        public string last_action { get; set; }
-        public int last_raise_value { get; set; }
+        public bool completed { get; set; }
+        public string game_info { get; set; }
     
         public virtual ICollection<player_game> player_game { get; set; }
     }

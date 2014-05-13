@@ -6,7 +6,7 @@ namespace SEIS752CardGame.Business.Services
     {
 	    UserModel GetUser(string userId);
 	    UserModel AuthenticateUser(string email, string password);
-        UserModel AuthenticateOAuthUser(string email, string oauthAuthToken);
+		UserModel AuthenticateOAuthUser(string email, string oauthUserId, string oauthAccessToken);
         bool CreateUser(UserModel model);
 	    bool UpdateUser(UserModel model);
 	    bool CheckEmailInUse(string email);

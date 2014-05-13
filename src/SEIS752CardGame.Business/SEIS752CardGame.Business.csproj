@@ -105,10 +105,17 @@
     <Compile Include="game.cs">
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DealResult.cs" />
+    <Compile Include="Models\DeckModel.cs" />
     <Compile Include="Models\EncryptionConfig.cs" />
+    <Compile Include="Models\GameInfo.cs" />
+    <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\GoogleAccessTokenResponse.cs" />
     <Compile Include="Models\GoogleOauthConfig.cs" />
     <Compile Include="Models\GoogleProfileResponse.cs" />
+    <Compile Include="Models\HandCollection.cs" />
+    <Compile Include="Models\PlayerActions.cs" />
+    <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\TwilioConfig.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -119,9 +126,12 @@
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BlackjackGameService.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
+    <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\GoogleOauthService.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
+    <Compile Include="Services\IGameService.cs" />
     <Compile Include="Services\IGoogleOauthService.cs" />
     <Compile Include="Services\ITableService.cs" />
     <Compile Include="Services\TableService.cs" />
@@ -134,7 +144,9 @@
       <DependentUpon>CardGameDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Database.cs" />
+    <Compile Include="Utilities\ITableDeckManager.cs" />
     <Compile Include="Utilities\SecurityHelper.cs" />
+    <Compile Include="Utilities\TableDeckManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

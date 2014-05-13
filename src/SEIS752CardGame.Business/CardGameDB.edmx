@@ -49,13 +49,8 @@
           </Key>
           <Property Name="game_id" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="table_id" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="game_state" Type="int" Nullable="false" />
-          <Property Name="house_cards" Type="varchar" MaxLength="500" />
-          <Property Name="table_pot_value" Type="int" Nullable="false" />
-          <Property Name="current_round_bet" Type="int" Nullable="false" />
-          <Property Name="req_player_action" Type="varchar" />
-          <Property Name="last_action" Type="varchar" MaxLength="255" />
-          <Property Name="last_raise_value" Type="int" Nullable="false" />
+          <Property Name="completed" Type="bit" Nullable="false" />
+          <Property Name="game_info" Type="varchar" MaxLength="8000" />
         </EntityType>
         <EntityType Name="player_game">
           <Key>
@@ -66,9 +61,9 @@
           <Property Name="game_id" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="ante_bet" Type="int" />
           <Property Name="amt_won_lost" Type="int" />
-          <Property Name="player_hand" Type="varchar" MaxLength="500" />
           <Property Name="has_anted_bet" Type="bit" Nullable="false" />
-          <Property Name="player_actions" Type="varchar" />
+          <Property Name="player_hand" Type="varchar" MaxLength="500" />
+          <Property Name="player_actions" Type="varchar" MaxLength="2000" />
         </EntityType>
         <EntityType Name="player_table">
           <Key>
@@ -222,13 +217,8 @@
           </Key>
           <Property Type="String" Name="game_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="table_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="game_state" Nullable="false" />
-          <Property Type="String" Name="house_cards" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="table_pot_value" Nullable="false" />
-          <Property Type="Int32" Name="current_round_bet" Nullable="false" />
-          <Property Type="String" Name="req_player_action" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="last_action" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="last_raise_value" Nullable="false" />
+          <Property Type="Boolean" Name="completed" Nullable="false" />
+          <Property Type="String" Name="game_info" MaxLength="8000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="player_game" Relationship="seis752cardgameModel.fk_player_game_game_id" FromRole="game" ToRole="player_game" />
         </EntityType>
         <EntityType Name="player_game">
@@ -240,9 +230,9 @@
           <Property Type="String" Name="game_id" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ante_bet" />
           <Property Type="Int32" Name="amt_won_lost" />
-          <Property Type="String" Name="player_hand" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="has_anted_bet" Nullable="false" />
-          <Property Type="String" Name="player_actions" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="player_hand" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="player_actions" MaxLength="2000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="game" Relationship="seis752cardgameModel.fk_player_game_game_id" FromRole="player_game" ToRole="game" />
           <NavigationProperty Name="user" Relationship="seis752cardgameModel.fk_player_game_user_id" FromRole="player_game" ToRole="user" />
         </EntityType>
@@ -350,13 +340,8 @@
           <EntitySetMapping Name="games">
             <EntityTypeMapping TypeName="seis752cardgameModel.game">
               <MappingFragment StoreEntitySet="game">
-                <ScalarProperty Name="last_raise_value" ColumnName="last_raise_value" />
-                <ScalarProperty Name="last_action" ColumnName="last_action" />
-                <ScalarProperty Name="req_player_action" ColumnName="req_player_action" />
-                <ScalarProperty Name="current_round_bet" ColumnName="current_round_bet" />
-                <ScalarProperty Name="table_pot_value" ColumnName="table_pot_value" />
-                <ScalarProperty Name="house_cards" ColumnName="house_cards" />
-                <ScalarProperty Name="game_state" ColumnName="game_state" />
+                <ScalarProperty Name="game_info" ColumnName="game_info" />
+                <ScalarProperty Name="completed" ColumnName="completed" />
                 <ScalarProperty Name="table_id" ColumnName="table_id" />
                 <ScalarProperty Name="game_id" ColumnName="game_id" />
               </MappingFragment>
@@ -366,8 +351,8 @@
             <EntityTypeMapping TypeName="seis752cardgameModel.player_game">
               <MappingFragment StoreEntitySet="player_game">
                 <ScalarProperty Name="player_actions" ColumnName="player_actions" />
-                <ScalarProperty Name="has_anted_bet" ColumnName="has_anted_bet" />
                 <ScalarProperty Name="player_hand" ColumnName="player_hand" />
+                <ScalarProperty Name="has_anted_bet" ColumnName="has_anted_bet" />
                 <ScalarProperty Name="amt_won_lost" ColumnName="amt_won_lost" />
                 <ScalarProperty Name="ante_bet" ColumnName="ante_bet" />
                 <ScalarProperty Name="game_id" ColumnName="game_id" />

@@ -123,6 +123,7 @@ namespace SEIS752CardGame.Business.Services
 			var table = (from t in context.poker_table
 						 where t.table_id == tableId
 						 select t).SingleOrDefault();
+			
 			var user = (from u in context.users
 						where u.user_id == userId
 						select u).SingleOrDefault();

@@ -22,6 +22,17 @@
 			});
 		};
 
+		$scope.joinTable = function (tableId) {
+			var result = blackjackService.checkJoinTable(tableId);
+			result.then(function(data) {
+				if (data.success) {
+					$location.path('/blackjack/table/' + tableId);
+				} else {
+					alert(data.error);
+				}
+			});
+		};
+
 		// standard functions
 		function init() {
 			adminInit();

@@ -14,7 +14,7 @@ namespace SEIS752CardGame.Controllers
         {
             var urlPath = (string.IsNullOrEmpty(url) ? "" : url.ToLower());
             if (!IsUserAuthenticated() && !urlPath.StartsWith(LOGIN_PATH) && !urlPath.StartsWith(ACCOUNT_CREATE_PATH) && !urlPath.StartsWith(ACCOUNT_FORGOT_PATH))
-                return Redirect(LOGIN_PATH + "/" + url);
+                return Redirect("/" + LOGIN_PATH + "/" + url);
             
             if (IsUserAuthenticated() && (urlPath.StartsWith(LOGIN_PATH) || urlPath.StartsWith(ACCOUNT_CREATE_PATH) || urlPath.StartsWith(ACCOUNT_FORGOT_PATH)))
             {

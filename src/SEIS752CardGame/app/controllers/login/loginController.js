@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    var LoginController = function ($scope, $location, $routeParams, userService) {
+    var LoginController = function ($scope, $window, $location, $routeParams, userService) {
         var path = '/';
         $scope.email = null;
         $scope.password = null;
@@ -23,9 +23,16 @@
                 $location.path(path);
             });
         };
+
+		$scope.googleOauth = function() {
+			if ($routeParams && $routeParams.redirect)
+				$window.location.href = '/oauth/login/google?redirect=' + $routeParams.redirect;
+			else
+				$window.location.href = '/oauth/login/google';
+		}
     };
 
-    LoginController.$inject = ['$scope', '$location', '$routeParams', 'userService'];
+    LoginController.$inject = ['$scope', '$window', '$location', '$routeParams', 'userService'];
 
     angular.module(appModule)
         .controller('LoginController', LoginController);

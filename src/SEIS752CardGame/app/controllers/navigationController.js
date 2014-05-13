@@ -3,6 +3,11 @@
     var NavigationController = function ($scope, $location, $window, userService) {
         $scope.isCollapsed = false;
         $scope.appTitle = 'Card Game';
+	    $scope.displayName = null;
+
+		$scope.highlight = function(path) {
+			return $location.path().substr(0, path.length) == path;
+		}
 
         $scope.hide = function () {
             return shouldHide();
@@ -17,7 +22,7 @@
         };
 
         function redirectToLogin() {
-            var path = '/login' + $location.$$path;
+            var path = '/login';
             $window.location.href = path;
         }
 		
@@ -32,12 +37,24 @@
 				($location.path().indexOf("/account/forgot") >= 0);
 		}
 
-        $scope.$on('redirectToLogin', function () {
+		function setDisplayName(name) {
+			$scope.displayName = name;
+		}
+
+		$scope.$on('redirectToLogin', function () {
             redirectToLogin();
         });
 
-	    $scope.$on('redirectToRoot', function() {
+		$scope.$on('redirectToRoot', function () {
 		    redirectToRoot();
+		});
+
+	    $scope.$on('userAuthenticated', function() {
+		    setDisplayName(userService.user.profile.displayName);
+	    });
+
+	    $scope.$on('userDeauthenticated', function() {
+		    setDisplayName(null);
 	    });
     };
 
