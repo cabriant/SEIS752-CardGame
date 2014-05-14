@@ -134,6 +134,7 @@
     <Content Include="app\controllers\templateController.js" />
     <Content Include="app\services\blackjackService.js" />
     <Content Include="app\services\templateService.js" />
+    <Content Include="app\views\account\_viewprofile.html" />
     <Content Include="app\views\blackjack\index.html" />
     <Content Include="app\controllers\home\homeController.js" />
     <Content Include="app\controllers\login\loginController.js" />
