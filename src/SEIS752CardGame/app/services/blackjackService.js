@@ -129,6 +129,10 @@
 			return deferred.promise;
 		};
 
+		factory.playAgain = function() {
+			$rootScope.$broadcast('refreshLocation', null);
+		};
+
 		return factory;
 	};
 

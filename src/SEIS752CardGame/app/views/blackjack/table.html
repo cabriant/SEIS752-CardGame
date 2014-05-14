@@ -1,6 +1,23 @@
 ﻿<div class="view">
 	<div class="container blackjack">
-		<div data-ng-show="game.currentStage == 0" class="row">
+		<div data-ng-show="game.currentStage == 7" class="margin-top">
+			<div class="alert alert-info">
+				You are currently observing a game in progress.  Please wait for the next game to start, or 
+				<a href="javascript:void(0)" data-ng-click="leaveTable()">leave this table</a> and join another table.
+			</div>
+		</div>
+		<div data-ng-show="game.currentStage == 6" class="margin-top row">
+			<div class="col-sm-4 col-sm-offset-4 standard-container">
+				<div class="text-center bold">
+					<h3 style="margin-top: 0px;">Game Over!</h3>
+				</div>
+				<div class="text-center">
+					<a class="btn btn-danger" href="javascript:void(0)" data-ng-click="leaveTable()">Leave Table</a>&nbsp;&nbsp;
+					<a class="btn btn-primary" href="javascript:void(0)" data-ng-click="playAgain()">Play Again</a>
+				</div>
+			</div>
+		</div>
+		<div data-ng-show="game.currentStage == 0" class="row margin-top">
 			<!-- Current player betting -->
 			<div class="col-md-4 col-md-offset-4 bet-container">
 				<div class="bet-inner-content">
@@ -37,30 +54,124 @@
 			</div>
 		</div>
 		<div data-ng-show="game.currentStage > 0">
-			<!-- Waiting for other players bets -->
-			<div class="row">
-				<div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 player-card-holder">
-					Dealer
+			<div class="dealer-row row">
+				<div class="col-xs-6 col-xs-offset-3 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4">
+					<div class="dealer-container">
+						<div class="card-container" data-ng-repeat="hand in game.dealer.hands track by $index">
+							<div data-ng-repeat="card in hand.cards track by $index">
+								<span class="card {{ card }} card-{{ $index }}" style="z-index: 1;"></span>
+							</div>
+						</div>
+						<div class="player-card-holder">
+							<div class="text-center bold">
+								{{ game.dealer.displayName }}
+							</div>
+							<div data-ng-show="game.dealer.handValue.length > 0" class="text-center">
+								<div class="bold">
+									Hand
+								</div>
+								<div ng-hide="game.dealer.handValue[0].handOutcome != ''">
+									{{ game.dealer.handValue[0].handValue }}
+								</div>
+								<div ng-show="game.dealer.handValue[0].handOutcome != ''">
+									{{ game.dealer.handValue[0].handOutcome }}
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div>
 				<div class="player-grid-container row">
 					<div class="col-md-3" ng-repeat="player in game.players">
 						<div class="player-container">
-							<div class="card-container">
-								<span data-ng-repeat="hand in player.hands">
-									<span data-ng-repeat="card in hand.cards">
-										<span class="card {{ card }}" style="width: 67px; height: 97px; float: left; z-index: 1; position: absolute; left: 0"></span>
-									</span>
-								</span>
+							<div class="card-container" data-ng-repeat="hand in player.hands track by $index">
+								<div data-ng-repeat="card in hand.cards track by $index">
+									<span class="card {{ card }} card-{{ $index }}" style="z-index: 1;"></span>
+								</div>
 							</div>
 							<div class="player-card-holder">
 								<div class="text-center bold">
 									{{ player.displayName }}
+									<span data-ng-show="player.isMe" class="pull-right badge">Me</span>
 								</div>
-								<div class="table-info text-center">
+								<div class="table-info text-center row">
+									<div class="col-sm-4">
+										<div class="bold">
+											Bet
+										</div>
+										<div>
+											{{ player.betValue }}
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="bold">
+											Cash
+										</div>
+										<div>
+											{{ player.cashValue }}
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="bold" data-ng-show="player.hands.length <= 1">
+											Hand
+										</div>
+										<div class="bold" data-ng-show="player.hands.length > 1">
+											Hands
+										</div>
+										<div data-ng-repeat="hv in player.handValue track by $index">
+											<div ng-hide="hv.handOutcome != ''">
+												{{ hv.handValue }}
+											</div>
+											<div ng-show="hv.handOutcome != ''">
+												{{ hv.handOutcome }}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div data-ng-show="player.isMe && game.currentStage == 4" class="player-actions-options">
+									<div data-ng-show="player.hands.length > 1" class="bold">
+										<div data-ng-show="player.hands[0].done == false">
+											First Hand
+										</div>
+										<div data-ng-show="player.hands[0].done == true && player.hands[1].done == false">
+											Second Hand
+										</div>
+									</div>
 									<div>
-										Bet: {{ player.betValue }}
+										<button type="button" title="Split Hand" class="btn btn-primary" ng-show="game.currentPlayerCanSplitHand" data-ng-click="splitHand()">Split</button>
+										<button type="button" title="Stand Hand" class="btn btn-primary" data-ng-click="standHand()">Stand</button>
+										<button type="button" title="Hit Hand" class="btn btn-primary" data-ng-click="hitHand()">Hit</button>
+									</div>
+								</div>
+								<div data-ng-show="player.isMe && (game.currentStage == 1 || game.currentStage == 3)">
+									<div class="text-center margin-top">
+										<div data-ng-show="game.currentStage == 1">
+											<div class="badge">Waiting for other players' bets...</div>
+										</div>
+										<div data-ng-show="game.currentStage == 3">
+											<div class="badge">Waiting for other players' turns...</div>
+										</div>
+									</div>
+								</div>
+								<div data-ng-show="!player.isMe && (game.currentStage == 1 || game.currentStage == 3)">
+									<div class="text-center margin-top">
+										<div data-ng-show="player.isTurn">
+											<div data-ng-show="game.currentStage == 1">
+												<div class="badge">Betting...</div>
+											</div>
+											<div data-ng-show="game.currentStage == 3">
+												<div class="badge">Turn in progress...</div>
+											</div>
+										</div>
+										<div data-ng-show="!player.isTurn">
+											<div data-ng-show="game.currentStage == 1">
+												<div class="badge">Waiting for other players; bets...</div>
+											</div>
+											<div data-ng-show="game.currentStage == 3">
+												<div class="badge">Waiting for other players' turns...</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

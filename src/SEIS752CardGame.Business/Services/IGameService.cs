@@ -15,6 +15,7 @@ namespace SEIS752CardGame.Business.Services
 		string UpdatePlayerBetForSplitHand(string userId, string gameId);
 		bool PlaceAnteForPlayerInGame(string userId, string gameId, int ante);
 		void SetGameStage(string gameId, int newState);
+		void SetGameCompleted(string gameId);
 		bool UpdatePlayerWinnings(string userId, string gameId, int totalWinnings);
 		void UpdateHouseCards(string gameId, List<string> cards);
 		void UpdatePlayerCards(string userId, string gameId, List<HandModel> hands);

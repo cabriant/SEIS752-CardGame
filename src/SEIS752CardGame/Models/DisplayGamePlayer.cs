@@ -18,6 +18,7 @@ namespace SEIS752CardGame.Models
 		public List<HandInfo> HandValue { get; set; }
 		public bool HasAnted { get; set; }
 		public List<string> Actions { get; set; }
+		public bool IsTurn { get; set; }
 
 		// For texas holdem and regular poker
 		//public IBasicPokerHand PokerHand { get; set; }

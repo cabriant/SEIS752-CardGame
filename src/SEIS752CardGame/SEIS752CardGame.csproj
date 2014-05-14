@@ -220,10 +220,12 @@
     <Content Include="Content\images\chip\pokerchip_red.png" />
     <Content Include="Content\images\chip\pokerchip_white.png" />
     <Content Include="Content\images\five_card_draw_img.png" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\images\social_facebook_box_blue.png" />
     <Content Include="Content\images\social_google_box.png" />
     <Content Include="Content\images\social_linkedin_box_blue.png" />
     <Content Include="Content\images\spinner.gif" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-ui-bootstrap.js" />
     <Content Include="Scripts\angular\1.2.15\angular-animate.min.js" />

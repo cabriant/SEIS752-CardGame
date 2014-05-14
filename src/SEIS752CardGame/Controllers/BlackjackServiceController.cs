@@ -98,7 +98,10 @@ namespace SEIS752CardGame.Controllers
 				if (currentActiveGame.GameInfo.GameState == (int)BlackjackCurrentState.Betting)
 				{
 					if (!GameService.Instance.GetIsPlayerInGame(CurrentUser.Id, currentActiveGame.Id))
+					{
 						GameService.Instance.AddUserToGame(CurrentUser.Id, currentActiveGame.Id);
+						currentActiveGame = GameService.Instance.GetCurrentGameForTable(id, TableModel.PokerGameType.Blackjack);
+					}
 				}
 				//else
 				//{
@@ -119,6 +122,7 @@ namespace SEIS752CardGame.Controllers
 					// Add player to game
 					model.CurrentGame = game.Id;
 					GameService.Instance.AddUserToGame(CurrentUser.Id, game.Id);
+					game = GameService.Instance.GetCurrentGameForTable(id, TableModel.PokerGameType.Blackjack);
 					currentActiveGame = game;
 				}
 			}
@@ -154,7 +158,8 @@ namespace SEIS752CardGame.Controllers
 					DisplayName = player.DisplayName,
 					IsMe = (player.Id == CurrentUser.Id),
 					BetValue = player.BetValue,
-					CashValue = player.CashValue
+					CashValue = player.CashValue,
+					IsTurn = player.IsTurn
 				};
 
 				//if (player.Hands != null)
@@ -182,7 +187,7 @@ namespace SEIS752CardGame.Controllers
 			return new InitTableResponse() { Success = true, Game = model };
 		}
 
-		[HttpGet]
+		[HttpGet, MethodImpl(MethodImplOptions.Synchronized)]
 		public InitTableResponse UpdateTable(string tableId, string gameId)
 		{
 			var model = new BlackjackGameModel();
@@ -192,7 +197,7 @@ namespace SEIS752CardGame.Controllers
 			{
 				model.Table = table.Id;
 
-				var game = GameService.Instance.GetGameById(gameId); //.GetCurrentGameForTable(table.Id);
+				var game = GameService.Instance.GetGameById(gameId);
 				if (game != null)
 				{
 					model.CurrentStage = BlackjackGameStage.InitialBet;
@@ -234,7 +239,8 @@ namespace SEIS752CardGame.Controllers
 							DisplayName = player.DisplayName,
 							IsMe = (player.Id == CurrentUser.Id),
 							BetValue = player.BetValue,
-							CashValue = player.CashValue
+							CashValue = player.CashValue,
+							IsTurn = player.IsTurn
 						};
 
 						//if (player.Hands != null)
@@ -286,7 +292,7 @@ namespace SEIS752CardGame.Controllers
 		}
 
 		[HttpPost]
-		public void SplitHand([FromBody] TableActionsModel model)
+		public TableActionResponse SplitHand([FromBody] TableActionsModel model)
 		{
 			var table = TableService.Instance.GetTableByIdForTableType(TableModel.PokerGameType.Blackjack, model.TableId);
 			if (table != null)
@@ -316,16 +322,20 @@ namespace SEIS752CardGame.Controllers
 									GameService.Instance.UpdatePlayerCards(CurrentUser.Id, game.Id, newHands);
 
 									GameService.Instance.UpdatePlayerBetForSplitHand(CurrentUser.Id, game.Id);
+
+									return new TableActionResponse {Success = true};
 								}
 							}
 						}
 					}
 				}
 			}
+
+			return new TableActionResponse { Success = false, Errors = new List<string> { "Unable to split hand." }};
 		}
 
 		[HttpPost]
-		public void StandHand([FromBody] TableActionsModel model)
+		public TableActionResponse StandHand([FromBody] TableActionsModel model)
 		{
 			var table = TableService.Instance.GetTableByIdForTableType(TableModel.PokerGameType.Blackjack, model.TableId);
 			if (table != null)
@@ -345,15 +355,19 @@ namespace SEIS752CardGame.Controllers
 								currentHand.Done = true;
 
 								GameService.Instance.UpdatePlayerCards(CurrentUser.Id, model.GameId, player.Hands.HandList);
+
+								return new TableActionResponse { Success = true };
 							}
 						}
 					}
 				}
 			}
+
+			return new TableActionResponse { Success = false, Errors = new List<string> { "Unable to stand hand." } };
 		}
 
 		[HttpPost]
-		public void HitHand([FromBody] TableActionsModel model)
+		public TableActionResponse HitHand([FromBody] TableActionsModel model)
 		{
 			var table = TableService.Instance.GetTableByIdForTableType(TableModel.PokerGameType.Blackjack, model.TableId);
 			if (table != null)
@@ -380,37 +394,20 @@ namespace SEIS752CardGame.Controllers
 									currentHand.Done = true;
 								}
 								GameService.Instance.UpdatePlayerCards(CurrentUser.Id, model.GameId, player.Hands.HandList);
+
+								return new TableActionResponse { Success = true };
 							}
 						}
 					}
 				}
 			}
+
+			return new TableActionResponse { Success = false, Errors = new List<string> { "Unable to hit hand." } };
 		}
 
 		[HttpPost]
 		public void LeaveTable([FromBody] TableActionsModel model)
 		{
-			//var table = TableService.Instance.GetTableByIdForTableType(TableModel.PokerGameType.Blackjack, model.TableId);
-			//if (table != null)
-			//{
-			//	if (GameService.Instance.CheckIsPlayersTurn(model.GameId, table.Id, TableModel.PokerGameType.Blackjack, CurrentUser.Id))
-			//	{
-			//		var game = GameService.Instance.GetCurrentGameForTable(table.Id, TableModel.PokerGameType.Blackjack);
-			//		if (game != null && game.Id == model.GameId)
-			//		{
-			//			var player = game.Players.SingleOrDefault(p => p.Id == CurrentUser.Id);
-			//			if (player != null)
-			//			{
-			//				var currentHand = player.Hands.HandList.FirstOrDefault(h => !h.Done);
-			//				if (currentHand != null)
-			//				{
-			//					currentHand.Done = true;
-			//					GameService.Instance.UpdatePlayerCards(CurrentUser.Id, model.GameId, player.Hands.HandList);
-			//				}
-			//			}
-			//		}
-			//	}
-			//}
 			var table = TableService.Instance.GetTableByIdForTableType(TableModel.PokerGameType.Blackjack, model.TableId);
 			if (table != null)
 			{
@@ -432,6 +429,11 @@ namespace SEIS752CardGame.Controllers
 					else if (game.Players.Any(p => p.BetValue == 0 && p.Id != CurrentUser.Id))
 					{
 						model.CurrentStage = BlackjackGameStage.WaitingForOtherBets;
+						var needBets = game.Players.Where(p => p.BetValue == 0);
+						foreach (var player in needBets)
+						{
+							player.IsTurn = true;
+						}
 					}
 
 					// If all players are done betting
@@ -515,6 +517,7 @@ namespace SEIS752CardGame.Controllers
 							{
 								model.CurrentStage = BlackjackGameStage.WaitingForOtherPlayerTurns;
 							}
+							firstPlayer.IsTurn = true;
 						}
 					}
 					else if (game.HouseCards.Any() && game.HouseCards.ElementAt(0) != "^done^")
@@ -599,6 +602,8 @@ namespace SEIS752CardGame.Controllers
 							player.CashValue += totalToAdd;
 						}
 					}
+
+					GameService.Instance.SetGameCompleted(game.Id);
 				}
 			}
 			else

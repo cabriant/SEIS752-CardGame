@@ -20,6 +20,7 @@ namespace SEIS752CardGame.Business.Models
 			HasAnted = player.has_anted_bet;
 			JsonHands = player.player_hand;
 			JsonPlayerActions = player.player_actions;
+			IsTurn = false;
 		}
 
 		public string DisplayName { get; set; }
@@ -29,6 +30,7 @@ namespace SEIS752CardGame.Business.Models
 		public bool HasAnted { get; set; }
 		public string JsonHands { get; private set; }
 		public string JsonPlayerActions { get; private set; }
+		public bool IsTurn { get; set; }
 
 		private HandCollection _hands = null;
 

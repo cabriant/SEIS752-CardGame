@@ -11,15 +11,10 @@
 			betValue: null,
 			betErrors: null
 		};
-		
-		var table = null;
+
+		var update;
 
 		function init() {
-			//$scope.player = {
-			//	bet: null,
-			//	currentBank: null,
-			//	bank: null
-			//};
 			initTable();
 		}
 
@@ -30,16 +25,32 @@
 					$scope.game = data.game;
 					$scope.bank.currentBalance = data.game.currentPlayersCashValue;
 					$scope.bank.newBalance = data.game.currentPlayersCashValue;
-					table = data.game.table;
+
+					if (data.game.currentStage != 0 && data.game.currentStage != 4 && data.game.currentStage != 6) {
+						if (!angular.isDefined(update)) {
+							update = $interval(updateTable, 5000);
+						}
+					}
 				}
 			});
 		}
 
 		function updateTable() {
-			var result = blackjackService.updateTable(table, $scope.game.currentGame);
+			var result = blackjackService.updateTable($scope.game.table, $scope.game.currentGame);
 			result.then(function(data) {
 				if (data.success) {
 					$scope.game = data.game;
+
+					if (data.game.currentStage != 0 && data.game.currentStage != 4 && data.game.currentStage != 6) {
+						if (!angular.isDefined(update)) {
+							update = $interval(updateTable, 5000);
+						}
+					} else {
+						if (angular.isDefined(update)) {
+							$interval.cancel(update);
+							update = null;
+						}
+					}
 				}
 			});
 		}
@@ -50,7 +61,7 @@
 		};
 
 		$scope.leaveTable = function() {
-			blackjackService.leaveTable(table);
+			blackjackService.leaveTable($scope.game.table);
 			$scope.game = null;
 			$scope.bet = null;
 			$scope.bank = null;
@@ -69,12 +80,41 @@
 			});
 		};
 
-		$scope.getImage = function(card) {
-			var cardName = card.replace('c_', '');
-			if (cardName == "back") {
-				return "/Content/images/cards/back.png";
-			}
-			return "/Content/images/cards/" + cardName + ".gif";
+		$scope.splitHand = function () {
+			var result = blackjackService.splitHand($scope.game.table, $scope.game.currentGame);
+			result.then(function (data) {
+				if (!data.success) {
+					$scope.bet.playerActionErrors = data.errors;
+				} else {
+					updateTable();
+				}
+			});
+		};
+
+		$scope.standHand = function() {
+			var result = blackjackService.standHand($scope.game.table, $scope.game.currentGame);
+			result.then(function (data) {
+				if (!data.success) {
+					$scope.bet.playerActionErrors = data.errors;
+				} else {
+					updateTable();
+				}
+			});
+		};
+
+		$scope.hitHand = function() {
+			var result = blackjackService.hitHand($scope.game.table, $scope.game.currentGame);
+			result.then(function (data) {
+				if (!data.success) {
+					$scope.bet.playerActionErrors = data.errors;
+				} else {
+					updateTable();
+				}
+			});
+		};
+
+		$scope.playAgain = function() {
+			blackjackService.playAgain();
 		};
 
 		// init

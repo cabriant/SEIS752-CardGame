@@ -1,10 +1,10 @@
 ﻿(function () {
 
-    var NavigationController = function ($scope, $location, $window, userService, $modal, accountService) {
+    var NavigationController = function ($scope, $route, $location, $window, userService, $modal, accountService) {
         $scope.isCollapsed = false;
         $scope.appTitle = 'Card Game';
 	    $scope.displayName = null;
-	    
+
 
 		$scope.highlight = function(path) {
 			return $location.path().substr(0, path.length) == path;
@@ -15,11 +15,11 @@
         };
 
         $scope.logout = function () {
-            userService.logout().then(function () {
-                    $location.path(userService.loginPath);
-                    return;
+        	var result = userService.logout();
+        	result.then(function (data) {
+		        userService.clearUserData();
+	        	redirectToLogin();
                 });
-            redirectToLogin();
         };
 
         function redirectToLogin() {
@@ -42,6 +42,10 @@
 			$scope.displayName = name;
 		}
 
+		function reloadLocation() {
+			$route.reload();
+		}
+
 		$scope.$on('redirectToLogin', function () {
             redirectToLogin();
         });
@@ -57,53 +61,48 @@
 	    $scope.$on('userDeauthenticated', function() {
 		    setDisplayName(null);
 	    });
-
-	    function getUserCashValue() {
-
-			var result 
-	    }
-
 	    $scope.viewProfile = function() {
-	    	var userCashValue = 0;
-	    	var accountValue = accountService.getAccountValue();
-			accountValue.then(function(userInfo) { 
-				//alert(data.userCashValue);
-				console.log("1 "+userInfo.userCashValue);
-				userCashValue = userInfo.userCashValue;
+	        var userCashValue = 0;
+	        var accountValue = accountService.getAccountValue();
+	        accountValue.then(function(userInfo) { 
+	            //alert(data.userCashValue);
+	            console.log("1 "+userInfo.userCashValue);
+	            userCashValue = userInfo.userCashValue;
 
-				var modalInstance = $modal.open({
-				templateUrl: '/app/views/account/_viewprofile.html',
-				controller: AccountModalController,
-				resolve: {
-					userCashValue: function() { 
+	            var modalInstance = $modal.open({
+	                templateUrl: '/app/views/account/_viewprofile.html',
+	                controller: AccountModalController,
+	                resolve: {
+	                    userCashValue: function() { 
 						
-						console.log("2 "+userCashValue);
-							return userCashValue;
-						}
-					}
-				});
+	                        console.log("2 "+userCashValue);
+	                        return userCashValue;
+	                    }
+	                }
+	            });
 
-				modalInstance.result.then(function (tableInfo) {
-				var result = blackjackService.createTable(tableInfo.name, tableInfo.ante, tableInfo.maxRaise, tableInfo.maxPlayers);
-				result.then(function (data) {
-					if (data.success) {
-						$scope.tables = data.tables;
-					}
-				});
-			});
+	            modalInstance.result.then(function (tableInfo) {
+	                var result = blackjackService.createTable(tableInfo.name, tableInfo.ante, tableInfo.maxRaise, tableInfo.maxPlayers);
+	                result.then(function (data) {
+	                    if (data.success) {
+	                        $scope.tables = data.tables;
+	                    }
+	                });
+	            });
 
-			}, function(data) {
-				console.log(data);
+	        }, function(data) {
+	            console.log(data);
 				
-			});
+	        });
 
 	    	
 
 			
 	    };
     };
+    };
 
-    NavigationController.$inject = ['$scope', '$location', '$window', 'userService','$modal','accountService'];
+NavigationController.$inject = ['$scope', '$route', '$location', '$window', 'userService','$modal','accountService'];
 
     angular.module(appModule).controller('NavigationController', NavigationController);
 
