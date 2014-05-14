@@ -77,6 +77,22 @@
 	    $scope.loginWithNewPassword = function() {
 		    accountService.cancelAction();
 	    };
+
+	    $scope.viewProfile = function() {
+	    	var modalInstance = $modal.open({
+				templateUrl: '/app/views/blackjack/_create.html',
+				controller: BlackjackModalController
+			});
+
+			modalInstance.result.then(function (tableInfo) {
+				var result = blackjackService.createTable(tableInfo.name, tableInfo.ante, tableInfo.maxRaise, tableInfo.maxPlayers);
+				result.then(function (data) {
+					if (data.success) {
+						$scope.tables = data.tables;
+					}
+				});
+			});
+	    };
     };
 
     AccountController.$inject = ['$scope', '$location', '$routeParams', 'accountService'];

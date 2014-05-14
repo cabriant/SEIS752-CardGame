@@ -7,6 +7,7 @@ using PhoneNumbers;
 using SEIS752CardGame.Business.Models;
 using SEIS752CardGame.Business.Services;
 using SEIS752CardGame.Models.Account;
+using SEIS752CardGame.Utilities;
 using Twilio;
 
 namespace SEIS752CardGame.Controllers
@@ -122,5 +123,11 @@ namespace SEIS752CardGame.Controllers
 
 			return new ForgotResponse { Success = success, Errors = errors };
 		}
+
+        [HttpGet, AuthenticatedApiRequest]
+	    public AccountValueResponse GetUserCashValue()
+	    {
+	        return new AccountValueResponse {UserCashValue = UserService.Instance.GetUserAccountValue(CurrentUser.Id)};
+	    }
 	}
 }

@@ -66,6 +66,19 @@
 			$rootScope.$broadcast('redirectToRoot', null);
 		};
 
+		factory.getAccountValue = function() {
+
+			var deferred = $q.defer();
+			$http.get(serviceBase + 'getUserCashValue')
+				.success(function (data) {
+					deferred.resolve(data);
+				}).error(function (data) {
+					deferred.reject(data);
+				});
+
+			return deferred.promise;
+		};
+
 		return factory;
 	};
 
