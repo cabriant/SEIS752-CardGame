@@ -272,6 +272,21 @@ namespace SEIS752CardGame.Business.Services
 			}
 		}
 
+		public void SetGameCompleted(string gameId)
+		{
+			var context = Database.GetContext();
+			var game = (from g in context.games
+				where g.game_id == gameId
+				select g).SingleOrDefault();
+
+			if (game != null)
+			{
+				game.completed = true;
+
+				context.SaveChanges();
+			}
+		}
+
 		public bool UpdatePlayerWinnings(string userId, string gameId, int totalWinnings)
 		{
 			var context = Database.GetContext();

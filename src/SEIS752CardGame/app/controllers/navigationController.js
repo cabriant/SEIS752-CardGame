@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    var NavigationController = function ($scope, $location, $window, userService) {
+    var NavigationController = function ($scope, $route, $location, $window, userService) {
         $scope.isCollapsed = false;
         $scope.appTitle = 'Card Game';
 	    $scope.displayName = null;
@@ -41,6 +41,10 @@
 			$scope.displayName = name;
 		}
 
+		function reloadLocation() {
+			$route.reload();
+		}
+
 		$scope.$on('redirectToLogin', function () {
             redirectToLogin();
         });
@@ -56,9 +60,13 @@
 	    $scope.$on('userDeauthenticated', function() {
 		    setDisplayName(null);
 	    });
+
+	    $scope.$on('refreshLocation', function() {
+		    reloadLocation();
+	    });
     };
 
-    NavigationController.$inject = ['$scope', '$location', '$window', 'userService'];
+    NavigationController.$inject = ['$scope', '$route', '$location', '$window', 'userService'];
 
     angular.module(appModule).controller('NavigationController', NavigationController);
 

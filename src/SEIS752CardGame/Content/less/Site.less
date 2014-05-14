@@ -3,24 +3,6 @@
 @import 'vendor/bootstrap.less';
 
 body {
-    /*background: radial-gradient(#333333 15%,transparent 16%) 0 0,
-        radial-gradient(#333333 15%,transparent 16%) 8px 8px,
-        radial-gradient(rgba(255,255,255,.1) 15%,transparent 20%) 0 1px,
-        radial-gradient(rgba(255,255,255,.1) 15%,transparent 20%) 8px 9px;
-    background-color: #545454;
-    background-size: 5px 5px;*/
-    /*background: radial-gradient(#333 15%,transparent 16%) 0 0,
-        radial-gradient(#333 15%,transparent 16%) 8px 8px,
-        radial-gradient(rgba(51,51,51,.1) 15%,transparent 20%) 0 1px,
-        radial-gradient(rgba(51,51,51,.1) 15%,transparent 20%) 8px 9px;*/
-
-    /*background: radial-gradient(#333 15%,transparent 16%) 0 0,
-        radial-gradient(#333 15%,transparent 16%) 8px 8px,
-        radial-gradient(rgba(255,255,255,.25) 15%,transparent 20%) 0 1px,
-        radial-gradient(rgba(255,255,255,0.25) 15%,transparent 20%) 8px 9px;
-    background-color: #555555;
-    background-size: 5px 5px;*/
-
     background: radial-gradient(#333 15%,transparent 16%) 0 0,
         radial-gradient(#333 15%,transparent 16%) 8px 8px,
         radial-gradient(rgba(255,255,255,.25) 15%,transparent 20%) 0 1px,
@@ -30,6 +12,7 @@ body {
 
     .main-content {
         margin-top: 60px;
+        margin-bottom: 70px;
     }
 
     .inner-content {
@@ -123,6 +106,14 @@ body {
         }
     }
 
+    .dealer-row {
+        margin-top: 15px;
+    }
+
+    .player-grid-container {
+        margin-top: 25px;
+    }
+
     .blackjack {
         .bet-container {
             padding: 10px;
@@ -133,6 +124,9 @@ body {
 
         .card-container {
             min-height: 100px;
+            max-width: 170px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .player-card-holder {
@@ -140,6 +134,13 @@ body {
             background: #ffffff;
             .rounded-corners;
             .box-shadow;
+
+            .player-actions-options {
+                .text-center;
+                margin-top: 15px;
+                border-top: 1px dotted #aaaaaa;
+                padding-top: 10px;
+            }
         }
     }
 
@@ -151,16 +152,37 @@ body {
     }
 }
 
-/*.c_ac, .c_2c, .c_3c, .c_4c, .c_5c, .c_6c, .c_7c, .c_8c, .c_9c, .c_tc, .c_jc, .c_qc, .c_kc,
-.c_ad, .c_2d, .c_3d, .c_4d, .c_5d, .c_6d, .c_7d, .c_8d, .c_9d, .c_td, .c_jd, .c_qd, .c_kd,
-.c_ah, .c_2h, .c_3h, .c_4h, .c_5h, .c_6h, .c_7h, .c_8h, .c_9h, .c_th, .c_jh, .c_qh, .c_kh,
-.c_as, .c_2s, .c_3s, .c_4s, .c_5s, .c_6s, .c_7s, .c_8s, .c_9s, .c_ts, .c_js, .c_qs, .c_ks, .c_back*/
-.card
-{
+.card {
     width: 73px;
-    height: 93px;
+    height: 97px;
     background-repeat: no-repeat;
+    //float: left;
+    position: absolute;
+
+    &.card-0 {
+        margin-left: 0;
+    }
+    &.card-1 {
+        margin-left: 20px;
+    }
+    &.card-2 {
+        margin-left: 40px;
+    }
+    &.card-3 {
+        margin-left: 60px;
+    }
+    &.card-4 {
+        margin-left: 80px;
+    }
+    &.card-5 {
+        margin-left: 100px;
+    }
+    &.card-6 {
+        margin-left: 120px;
+    }
 }
+
+
 
 .c_ac {
     background-image: url('/Content/images/cards/ac.gif');
