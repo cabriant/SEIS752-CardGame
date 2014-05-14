@@ -79,6 +79,20 @@
 			return deferred.promise;
 		};
 
+		factory.addCashMoney = function(addCashValue) {
+			
+			var obj = JSON.stringify({ AddCash : addCashValue});
+			var deferred = $q.defer();
+			$http.post(serviceBase + 'UpdateAccountValue', obj, { headers: { 'Content-Type': 'application/json' } })
+				.success(function (data) {
+					deferred.resolve(data);
+				}).error(function (data) {
+					deferred.reject(data);
+				});
+
+			return deferred.promise;
+		};
+
 		return factory;
 	};
 

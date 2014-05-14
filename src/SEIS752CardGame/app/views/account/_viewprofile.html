@@ -7,7 +7,9 @@
 			<div class="form-group col-md-6">
 				<label for="cashValue">Amount in Bank</label>
 				<div id="cashValue">${{userInfo.cashValue}}</div>
-				
+
+				<label for="addCashValue">Amount To Add</label>
+				<input id="addCashValue" type="text" name="addCashValue" class="form-control" data-ng-model="userInfo.addCashValue" required placeholder="Enter Amount" />
 
 			</div>
 			
@@ -17,5 +19,5 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary" ng-click="ok()">Ok</button>
-	
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>

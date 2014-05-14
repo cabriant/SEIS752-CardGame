@@ -86,8 +86,9 @@
 	                }
 	            });
 
-	            modalInstance.result.then(function (tableInfo) {
-	                var result = blackjackService.createTable(tableInfo.name, tableInfo.ante, tableInfo.maxRaise, tableInfo.maxPlayers);
+	            modalInstance.result.then(function (userInfo) {
+	            	
+	                var result = accountService.addCashMoney(userInfo.addCashValue);
 	                result.then(function (data) {
 	                    if (data.success) {
 	                        $scope.tables = data.tables;
@@ -115,11 +116,12 @@
     	console.log("3 "+userCashValue);
     	$scope.seevalue = userCashValue;
 		$scope.userInfo = {
-			cashValue: userCashValue
+			cashValue: userCashValue,
+			addCashValue: 0
 		};
 
 		$scope.ok = function () {
-			$modalInstance.close($scope.tableInfo);
+			$modalInstance.close($scope.userInfo);
 		};
 
 		$scope.cancel = function () {
