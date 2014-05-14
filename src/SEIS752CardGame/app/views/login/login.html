@@ -1,62 +1,65 @@
 ﻿<div class="view">
     <div class="container">
         <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 login-dialog">
-            <div class="login-content">
-                <form name="loginForm" novalidate>
-                    <div class="login">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="text" name="email" class="form-control" data-ng-model="email" required placeholder="Email..." />
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="password" name="password" class="form-control" 
-                                       data-ng-model="password" 
-                                       data-ng-minlength="6"
-                                       required placeholder="Password..." />
-                                <span class="errorMessage" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">
-                                    Password is required
-                                </span>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary" data-ng-click="login()" ng-disabled="loginForm.$invalid || !loginForm.$dirty">Login</button>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="statusRow">
-                            <div class="alert alert-danger" data-ng-show="errorMessage">
-                                Error: {{ errorMessage }}
-                            </div>
-                        </div>
-	                    <div class="account-options row">
-		                    <div class="col-sm-6 right">
-			                    <a href="/account/create" title="Create an Account">Create an Account</a>
-		                    </div>
-		                    <div class="col-sm-6 left">
-			                    <a href="/account/forgot">Forgot my Password</a>
-		                    </div>
-	                    </div>
-	                    <div class="horizontal-divider row">
-		                    <div class="col-xs-4 col-sm-5 divider"></div>
-		                    <div class="col-xs-4 col-sm-2 divider-word">OR</div>
-							<div class="col-xs-4 col-sm-5 divider"></div>
-	                    </div>
-	                    <div class="oauth-collection">
-		                    <a href="javascript:void(0);" data-ng-click="googleOauth()" target="_self"><img src="/Content/images/social_google_box.png" title="Google" alt="Google" /> Sign In with Google</a>
+	        <div class="login-content">
+		        <div class="login-header text-center">
+			        <img src="/Content/images/logo.png" alt="Element Zero Poker" />
+		        </div>
+		        <form name="loginForm" novalidate class="margin-top">
+			        <div class="login">
+				        <div class="row">
+					        <div class="col-md-12">
+						        <input type="text" name="email" class="form-control" data-ng-model="email" required placeholder="Email..." />
+					        </div>
+				        </div>
+				        <br />
+				        <div class="row">
+					        <div class="col-md-12">
+						        <input type="password" name="password" class="form-control" 
+						               data-ng-model="password" 
+						               data-ng-minlength="6"
+						               required placeholder="Password..." />
+						        <span class="errorMessage" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">
+							        Password is required
+						        </span>
+					        </div>
+				        </div>
+				        <br />
+				        <div class="row">
+					        <div class="col-md-12 text-center">
+						        <button type="submit" class="btn btn-primary" data-ng-click="login()" ng-disabled="loginForm.$invalid || !loginForm.$dirty">Login</button>
+					        </div>
+				        </div>
+				        <br />
+				        <div class="statusRow">
+					        <div class="alert alert-danger" data-ng-show="errorMessage">
+						        Error: {{ errorMessage }}
+					        </div>
+				        </div>
+				        <div class="account-options row">
+					        <div class="col-sm-6 right">
+						        <a href="/account/create" title="Create an Account">Create an Account</a>
+					        </div>
+					        <div class="col-sm-6 left">
+						        <a href="/account/forgot">Forgot my Password</a>
+					        </div>
+				        </div>
+				        <div class="horizontal-divider row">
+					        <div class="col-xs-4 col-sm-5 divider"></div>
+					        <div class="col-xs-4 col-sm-2 divider-word">OR</div>
+					        <div class="col-xs-4 col-sm-5 divider"></div>
+				        </div>
+				        <div class="oauth-collection">
+					        <a href="javascript:void(0);" data-ng-click="googleOauth()" target="_self"><img src="/Content/images/social_google_box.png" title="Google" alt="Google" /> Sign In with Google</a>
                             
-		                    <!-- Icons provided by https://www.iconfinder.com/search/?q=iconset:yooicons_set01_socialbookmarks -->
-	                    </div>
-						<div class="text-center">
-                            Copyright &copy; 2014 Element Zero Solutions, LLC
-                        </div>
-                    </div>
-                </form>
-            </div>
+					        <!-- Icons provided by https://www.iconfinder.com/search/?q=iconset:yooicons_set01_socialbookmarks -->
+				        </div>
+				        <div class="text-center">
+					        Copyright &copy; 2014 Element Zero Solutions, LLC
+				        </div>
+			        </div>
+		        </form>
+	        </div>
         </div>
     </div>
 </div>
