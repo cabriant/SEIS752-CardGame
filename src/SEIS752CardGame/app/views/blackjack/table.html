@@ -93,6 +93,7 @@
 							<div class="player-card-holder">
 								<div class="text-center bold">
 									{{ player.displayName }}
+									<span data-ng-show="player.isMe" class="pull-right badge">Me</span>
 								</div>
 								<div class="table-info text-center row">
 									<div class="col-sm-4">
@@ -141,6 +142,36 @@
 										<button type="button" title="Split Hand" class="btn btn-primary" ng-show="game.currentPlayerCanSplitHand" data-ng-click="splitHand()">Split</button>
 										<button type="button" title="Stand Hand" class="btn btn-primary" data-ng-click="standHand()">Stand</button>
 										<button type="button" title="Hit Hand" class="btn btn-primary" data-ng-click="hitHand()">Hit</button>
+									</div>
+								</div>
+								<div data-ng-show="player.isMe && (game.currentStage == 1 || game.currentStage == 3)">
+									<div class="text-center margin-top">
+										<div data-ng-show="game.currentStage == 1">
+											<div class="badge">Waiting for other players' bets...</div>
+										</div>
+										<div data-ng-show="game.currentStage == 3">
+											<div class="badge">Waiting for other players' turns...</div>
+										</div>
+									</div>
+								</div>
+								<div data-ng-show="!player.isMe && (game.currentStage == 1 || game.currentStage == 3)">
+									<div class="text-center margin-top">
+										<div data-ng-show="player.isTurn">
+											<div data-ng-show="game.currentStage == 1">
+												<div class="badge">Betting...</div>
+											</div>
+											<div data-ng-show="game.currentStage == 3">
+												<div class="badge">Turn in progress...</div>
+											</div>
+										</div>
+										<div data-ng-show="!player.isTurn">
+											<div data-ng-show="game.currentStage == 1">
+												<div class="badge">Waiting for other players; bets...</div>
+											</div>
+											<div data-ng-show="game.currentStage == 3">
+												<div class="badge">Waiting for other players' turns...</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

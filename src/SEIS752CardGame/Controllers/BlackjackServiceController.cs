@@ -158,7 +158,8 @@ namespace SEIS752CardGame.Controllers
 					DisplayName = player.DisplayName,
 					IsMe = (player.Id == CurrentUser.Id),
 					BetValue = player.BetValue,
-					CashValue = player.CashValue
+					CashValue = player.CashValue,
+					IsTurn = player.IsTurn
 				};
 
 				//if (player.Hands != null)
@@ -238,7 +239,8 @@ namespace SEIS752CardGame.Controllers
 							DisplayName = player.DisplayName,
 							IsMe = (player.Id == CurrentUser.Id),
 							BetValue = player.BetValue,
-							CashValue = player.CashValue
+							CashValue = player.CashValue,
+							IsTurn = player.IsTurn
 						};
 
 						//if (player.Hands != null)
@@ -427,6 +429,11 @@ namespace SEIS752CardGame.Controllers
 					else if (game.Players.Any(p => p.BetValue == 0 && p.Id != CurrentUser.Id))
 					{
 						model.CurrentStage = BlackjackGameStage.WaitingForOtherBets;
+						var needBets = game.Players.Where(p => p.BetValue == 0);
+						foreach (var player in needBets)
+						{
+							player.IsTurn = true;
+						}
 					}
 
 					// If all players are done betting
@@ -510,6 +517,7 @@ namespace SEIS752CardGame.Controllers
 							{
 								model.CurrentStage = BlackjackGameStage.WaitingForOtherPlayerTurns;
 							}
+							firstPlayer.IsTurn = true;
 						}
 					}
 					else if (game.HouseCards.Any() && game.HouseCards.ElementAt(0) != "^done^")
