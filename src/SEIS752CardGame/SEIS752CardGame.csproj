@@ -252,6 +252,8 @@
     <Compile Include="Models\Account\AccountCreateModel.cs" />
     <Compile Include="Models\Account\AccountCreateResponse.cs" />
     <Compile Include="Models\Account\AccountValueResponse.cs" />
+    <Compile Include="Models\Account\AccountValueUpdateModel.cs" />
+    <Compile Include="Models\Account\AccountValueUpdateResponse.cs" />
     <Compile Include="Models\Account\ForgotModel.cs" />
     <Compile Include="Models\Account\ForgotResponse.cs" />
     <Compile Include="Models\BaseApiResponse.cs" />

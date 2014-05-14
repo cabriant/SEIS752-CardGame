@@ -129,5 +129,23 @@ namespace SEIS752CardGame.Controllers
 	    {
 	        return new AccountValueResponse {UserCashValue = UserService.Instance.GetUserAccountValue(CurrentUser.Id)};
 	    }
+
+		[HttpPost, AuthenticatedApiRequest]
+		public AccountValueUpdateResponse UpdateAccountValue([FromBody] AccountValueUpdateModel model)
+		{
+			var errors = new List<string>();
+			var success = false;
+			var newAccountValue = 0;
+			if (model.AddCash <= 0)
+				errors.Add("You must add more than $0 to your account");
+
+			if (!errors.Any())
+				 success = UserService.Instance.UpdateUserCashValue(CurrentUser.Id, model.AddCash);
+
+			if (success)
+				newAccountValue = UserService.Instance.GetUserAccountValue(CurrentUser.Id);
+
+			return new AccountValueUpdateResponse {Success = success, NewValue = newAccountValue, Errors = errors};
+		}
 	}
 }
