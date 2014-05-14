@@ -61,6 +61,11 @@
 	    $scope.$on('userDeauthenticated', function() {
 		    setDisplayName(null);
 	    });
+
+	    $scope.$on('refreshLocation', function () {
+		    reloadLocation();
+	    });
+
 	    $scope.viewProfile = function() {
 	        var userCashValue = 0;
 	        var accountValue = accountService.getAccountValue();
@@ -100,9 +105,8 @@
 			
 	    };
     };
-    };
 
-NavigationController.$inject = ['$scope', '$route', '$location', '$window', 'userService','$modal','accountService'];
+	NavigationController.$inject = ['$scope', '$route', '$location', '$window', 'userService','$modal','accountService'];
 
     angular.module(appModule).controller('NavigationController', NavigationController);
 
