@@ -14,11 +14,11 @@
         };
 
         $scope.logout = function () {
-            userService.logout().then(function () {
-                    $location.path(userService.loginPath);
-                    return;
-                });
-            redirectToLogin();
+        	var result = userService.logout();
+        	result.then(function (data) {
+		        userService.clearUserData();
+	        	redirectToLogin();
+	        });
         };
 
         function redirectToLogin() {

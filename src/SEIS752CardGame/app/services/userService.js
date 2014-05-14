@@ -18,12 +18,15 @@
         };
 
         factory.logout = function () {
-            return $http.post(serviceBase + 'logout').then(
-                function (results) {
-                    var loggedIn = results.data.authenticated;
-                    changeAuth(results.data);
-                    return loggedIn;
-                });
+        	var deferred = $q.defer();
+        	$http.post(serviceBase + 'logout')
+				.success(function (data) {
+					deferred.resolve(data);
+				}).error(function (data) {
+					deferred.reject(data);
+				});
+
+        	return deferred.promise;
         };
 
         factory.getUser = function () {
@@ -45,6 +48,14 @@
         factory.redirectToLogin = function () {
             $rootScope.$broadcast('redirectToLogin', null);
         };
+
+	    factory.clearUserData = function() {
+	    	factory.user = {
+	    		isAuthenticated: false,
+	    		profile: null
+	    	};
+	    	broadcastAuth('userDeauthenticated');
+	    };
 
         function changeAuth(response) {
 			if (response.authenticated) {
